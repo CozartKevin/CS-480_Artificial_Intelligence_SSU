@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+G:/SSU Courses/CS480/Project1/Node.hpp
+vector
+-
+string
+-
+
+G:/SSU Courses/CS480/Project1/main.cpp
+iostream
+-
+sstream
+-
+iterator
+-
+set
+-
+queue
+-
+unordered_set
+-
+Node.hpp
+G:/SSU Courses/CS480/Project1/Node.hpp
+
