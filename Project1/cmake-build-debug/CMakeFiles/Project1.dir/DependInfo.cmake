@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "G:/SSU Courses/CS480/Project1/Node.cpp" "G:/SSU Courses/CS480/Project1/cmake-build-debug/CMakeFiles/Project1.dir/Node.cpp.obj"
-  "G:/SSU Courses/CS480/Project1/main.cpp" "G:/SSU Courses/CS480/Project1/cmake-build-debug/CMakeFiles/Project1.dir/main.cpp.obj"
+  "G:/SSU Courses/CS480/CS480/Project1/Node.cpp" "G:/SSU Courses/CS480/CS480/Project1/cmake-build-debug/CMakeFiles/Project1.dir/Node.cpp.obj"
+  "G:/SSU Courses/CS480/CS480/Project1/main.cpp" "G:/SSU Courses/CS480/CS480/Project1/cmake-build-debug/CMakeFiles/Project1.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "MSVC")
 

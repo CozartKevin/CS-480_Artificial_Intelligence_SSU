@@ -6,13 +6,13 @@
 
 #IncludeRegexTransform: 
 
-G:/SSU Courses/CS480/Project1/Node.hpp
+G:/SSU Courses/CS480/CS480/Project1/Node.hpp
 vector
 -
 string
 -
 
-G:/SSU Courses/CS480/Project1/main.cpp
+G:/SSU Courses/CS480/CS480/Project1/main.cpp
 iostream
 -
 sstream
@@ -23,8 +23,12 @@ set
 -
 queue
 -
+stack
+-
 unordered_set
 -
+unordered_map
+-
 Node.hpp
-G:/SSU Courses/CS480/Project1/Node.hpp
+G:/SSU Courses/CS480/CS480/Project1/Node.hpp
 

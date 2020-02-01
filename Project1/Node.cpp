@@ -5,11 +5,11 @@
 
 #include "Node.hpp"
 
-Node::Node(std::vector<int> v, int level)
+Node::Node(std::vector<int> v)
 {
     vector = v;
     string = convertVector(v);
-    curLevel = level;
+    parent;
 }
 
 std::string Node::convertVector(std::vector<int> v)
@@ -38,6 +38,38 @@ void Node::printString()
     std::cout << string << std::endl;
 
 }
+
+std::vector<Node> Node::adjacent()
+{
+
+        std::vector<Node> result;
+        for (int i = 0; i < vector.size(); ++i) {
+            for (int j = i + 1; j < vector.size(); ++j) {
+                Node curr(vector);
+                reverse(curr.getVector().begin() + i, curr.getVector().end() + j + 1);
+                result.push_back(curr);
+            }
+        }
+        return result;
+    }
+
+/*
+void Node::printParentVectors()
+{
+    std::vector<Node *> parentNodes;
+    parentNodes.push_back(parent);
+    while(parent->getParent()){
+        parentNodes.push_back(parent->getParent());
+    }
+
+    for(int i = parentNodes.size(); i > 0;i--){
+        parentNodes[i]->printVector();
+    }
+}
+*/
+
+
+
 
 
 
