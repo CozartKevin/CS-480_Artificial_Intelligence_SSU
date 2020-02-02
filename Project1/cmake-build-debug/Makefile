@@ -178,6 +178,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles\Project1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Project1.dir\main.cpp.s
 .PHONY : main.cpp.s
 
+parameterObject.obj: parameterObject.cpp.obj
+
+.PHONY : parameterObject.obj
+
+# target to build an object file
+parameterObject.cpp.obj:
+	$(MAKE) -f CMakeFiles\Project1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Project1.dir\parameterObject.cpp.obj
+.PHONY : parameterObject.cpp.obj
+
+parameterObject.i: parameterObject.cpp.i
+
+.PHONY : parameterObject.i
+
+# target to preprocess a source file
+parameterObject.cpp.i:
+	$(MAKE) -f CMakeFiles\Project1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Project1.dir\parameterObject.cpp.i
+.PHONY : parameterObject.cpp.i
+
+parameterObject.s: parameterObject.cpp.s
+
+.PHONY : parameterObject.s
+
+# target to generate assembly for a file
+parameterObject.cpp.s:
+	$(MAKE) -f CMakeFiles\Project1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Project1.dir\parameterObject.cpp.s
+.PHONY : parameterObject.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -193,6 +220,9 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... parameterObject.obj
+	@echo ... parameterObject.i
+	@echo ... parameterObject.s
 .PHONY : help
 
 

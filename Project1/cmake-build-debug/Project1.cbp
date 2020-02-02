@@ -93,6 +93,12 @@
 		<Unit filename="G:/SSU Courses/CS480/CS480/Project1/main.cpp">
 			<Option target="Project1"/>
 		</Unit>
+		<Unit filename="G:/SSU Courses/CS480/CS480/Project1/parameterObject.cpp">
+			<Option target="Project1"/>
+		</Unit>
+		<Unit filename="G:/SSU Courses/CS480/CS480/Project1/parameterObject.hpp">
+			<Option target="Project1"/>
+		</Unit>
 		<Unit filename="G:/SSU Courses/CS480/CS480/Project1/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

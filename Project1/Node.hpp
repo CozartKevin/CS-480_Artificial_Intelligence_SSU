@@ -13,7 +13,7 @@ public:
 
     std::string static convertVector(std::vector<int> v);
     std::vector<int> getVector(){return vector;}
-    std::string getString(){return string;}
+    std::string& getString(){return string;}
     void setVector(std::vector<int> &vectorSetTo){vector = vectorSetTo;}
     void setString(std::string &s){string = s;}
     void setParent(Node *n){ parent = n;};

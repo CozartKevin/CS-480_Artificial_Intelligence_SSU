@@ -53,20 +53,6 @@ std::vector<Node> Node::adjacent()
         return result;
     }
 
-/*
-void Node::printParentVectors()
-{
-    std::vector<Node *> parentNodes;
-    parentNodes.push_back(parent);
-    while(parent->getParent()){
-        parentNodes.push_back(parent->getParent());
-    }
-
-    for(int i = parentNodes.size(); i > 0;i--){
-        parentNodes[i]->printVector();
-    }
-}
-*/
 
 
 

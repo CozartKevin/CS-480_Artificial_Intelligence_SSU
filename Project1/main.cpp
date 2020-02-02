@@ -4,17 +4,17 @@
 #include <set>
 #include <queue>
 #include <stack>
-#include <unordered_set>
-#include <unordered_map>
 #include <ctime>
 #include "Node.hpp"
+#include "parameterObject.hpp"
 
+int visitedForDebug = 0;
 
 bool BFS(Node &initialNode, Node &goalNode);
 bool IDS(Node &initialNode, Node &goalNode);
-bool DFS(Node &initialNode,Node &goalNode,int depthLimit);
+bool DFS(Node &initialNode, Node &goalNode, parameterObject &paraObj);
 std::vector<std::vector<int> > adjacent(std::vector<int> nums);
-void display_path(std::unordered_map<std::string, std::string> &parents, std::string src);
+void display_path(std::unordered_map<std::string, std::string> &parents, std::string &src);
 
 int main()
 {
@@ -26,14 +26,6 @@ int main()
             << "Enter an array of integers with spaces in between them.  Once done enter a 0 to signal the end of array."
             << std::endl;
     std::cout << "Enter input here:";
-    /*
-      while(std::cin >>  number && number != 0){
-              vectorInput[i] = number
-                      i++;
-      }
-      for(int j = 0; j < vectorInput.size();j++){
-          std::cout <<
-      }*/
     std::getline(std::cin, userInput);
     std::istringstream is(userInput);
     std::vector<int> vectorInput((std::istream_iterator<int>(is)), std::istream_iterator<int>());
@@ -57,57 +49,19 @@ int main()
             exit(1);
         }
     }
-    /*
-    for (int i = 0; i < vectorInput.size(); i++)
-    {
-        if (vectorInput[i] < 0)
-        {
-            std::cout << "Invalid input: Inputted negative numbers." << std::endl;
-            std::cout << "Please run program again." << std::endl;
-            exit(1);
-        }
-    }
-*/
 
-    //std::cout << vectorInput.size() << " Vector size" << std::endl;
-/*
-   std::set<int> testSet(vectorInput.begin(), vectorInput.end());
-    std::cout << testSet.size() << " Set size" << std::endl;
-    if (testSet.size() != vectorInput.size())
-    {
-        std::cout << "Invalid input: Either a non-digit, duplicate digits or not enough digits were entered as input."
-                  << std::endl;
-        std::cout << "Please run program again. " << std::endl;
-        exit(1);
-    }
-    */
     Node initialNode(vectorInput);
-    //vectorInput.assign(testSet.begin(),testSet.end());
     Node goalNode(goalVector);
-    //initialNode.printVector();
-   // goalNode.printVector();
-    //BFS
 
-/*
+    //BFS
     std::clock_t c_start = std::clock();
-  BFS(initialNode,goalNode);
+    BFS(initialNode,goalNode);
     std::clock_t c_end = std::clock();
     double time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
-    std::cout << "CPU time used: " << time_elapsed_ms / 1000.0 << " s\n";
-*/
-std::cout << std::endl;
+    std::cout << "CPU time used: " << time_elapsed_ms / 1000.0 << " s\n" << std::endl;
+
     //IDS
-    std::clock_t c_start2 = std::clock();
     IDS(initialNode,goalNode);
-    std::clock_t c_end2 = std::clock();
-    double time_elapsed_ms2 = 1000.0 * (c_end2-c_start2) / CLOCKS_PER_SEC;
-    std::cout << "CPU time used: " << time_elapsed_ms2 / 1000.0 << " s\n";
-    // std::cout << " Count " << count << std::endl;
-    //  std::cout <<"IDS Found at level: " << IDS(vectorInput) << std::endl;
-
-
-
-
 }
 
 bool BFS(Node &initialNode, Node &goalNode)
@@ -127,41 +81,30 @@ bool BFS(Node &initialNode, Node &goalNode)
     if (initialNode.getString() == goalNode.getString())
     {
         initialNode.printVector();
-        //std::cout << "BTS Found it at this level: " << currentNode.getLevel() << std::endl;
-        //  return 1;
-        //return true;
         return true;
     }
-    // initialNode.printVector();
-    // std::vector<Node> parent;
-    //std::unordered_set<std::string>::const_iterator got;
+
     while (!q.empty())
     {
-        //  std::cout << " --------------------------------Top ! Empty q" << std::endl;
         Node currentNode = q.front();
         q.pop();
         if (currentNode.getString() == goalNode.getString())
         {
             display_path(parent,currentNode.getString());
-          //  std::cout << " Current node printout" << std::endl;
-            //std::cout << "BTS Found it at this level: " << currentNode.getLevel() << std::endl;
-            //  return 1;
-            //return true;
             return true;
         }
-       // std::cout << " Before nei loop " << std::endl;
         for (std::vector<int> nei : adjacent(currentNode.getVector())) {
                 Node neiNode(nei);
-            if(neiNode.getString() == goalNode.getString()){
 
+            if(neiNode.getString() == goalNode.getString())
+            {
                 parent[neiNode.getString()] = currentNode.getString();
-                display_path(parent,neiNode.getString());
-
+                display_path(parent, neiNode.getString());
                 std::cout << "The total number of states visited was " << visited.size() << std::endl;
                 std::cout << "The max size of the queue/stack was " << queueSize << std::endl;
-
                 return true;
             }
+
             if(visited.find(neiNode.getString()) == visited.end()){
                 visited.insert(neiNode.getString());
                 parent[neiNode.getString()] = currentNode.getString();
@@ -171,50 +114,7 @@ bool BFS(Node &initialNode, Node &goalNode)
                     queueSize = q.size();
                 }
             }
-            //std::cout << "Bottom of Nei Loop" << std::endl;
         }
-        /*
-        std::vector v = currentNode.getVector();
-        for (int i = 0; i < currentNode.getVector().size(); i++)
-        {
-            for (int j = i + 1; j < currentNode.getVector().size(); j++)
-            {
-
-                reverse(v.begin() + i, v.begin() + j + 1);
-                Node vect(v);
-                //  vect.printVector();
-                //    std::cout << i << " i Printout          " << j << " J print out ----------------" << std::endl;
-                reverse(v.begin() + i, v.begin() + j + 1);
-                if (goalTest(vect.getVector()))
-                {
-                    // for(int i = 0; i < parentNodes.size(); i++){
-                    //parentNodes.at(vect.getString());
-                    // }
-                    // std::cout << " Current node printout" << std::endl;
-                    //  vect.printVector();
-                    std::cout << "The total number of states visited was " << visited.size() << std::endl;
-                    std::cout << "The max size of the queue/stack was " << queueSize << std::endl;
-                    //std::cout << "Found it at this level: " << vect.getLevel() << std::endl;
-                    // return 1;
-                    return true;
-                }
-                got = visited.find(vect.getString());
-                if (got == visited.end())
-                {
-                    visited.insert(vect.getString());
-                }
-
-
-                q.push(vect);
-                if (q.size() > queueSize)
-                {
-                    queueSize = q.size();
-                }
-            }
-//std::cout << " End of inside loop $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" << std::endl;
-        }
-        // parent.push_back(currentNode);
-        */
     }
 return false;
 
@@ -223,39 +123,37 @@ return false;
 
 bool IDS(Node &initialNode, Node &goalNode)
 {
+    std::clock_t c_start = std::clock();
     std::cout << "Start IDS:" << std::endl;
-
+    std::unordered_map<std::string, std::string> parent;
     int depthLimit = 0;
+    parameterObject state;
 
-    while (!DFS(initialNode, goalNode, depthLimit))
+    while (!DFS(initialNode,goalNode,state))
     {
-        depthLimit++;
-
+        state.incrementDepthLimit();
     }
 
-
-   // parent[neiNode.getString()] = initialNode.getString();
-  //  display_path(parent,goalNode.getString());
-
-  //  std::cout << "The total number of states visited was " << visited.size() << std::endl;
-  //  std::cout << "The max size of the queue/stack was " << queueSize << std::endl;
+    display_path(state.getParent(),goalNode.getString());
+    std::clock_t c_end = std::clock();
+    double time_elapsed_ms = 1000.0 * (c_end-c_start) / CLOCKS_PER_SEC;
+    std::cout << "CPU time used: " << time_elapsed_ms / 1000.0 << " s\n";
+    std::cout << "The total number of states visited was " << state.getMaxVisitedStates() << std::endl;
+    std::cout << "The max size of the queue/stack was " << state.getMaxDepth() << std::endl;
 
     return true;
 }
 
-bool DFS(Node &initialNode, Node &goalNode,int depthLimit)
+bool DFS(Node &initialNode, Node &goalNode,parameterObject &state)
 {
-    //TODO call goaltest to check if output is correct.
-    std::unordered_set<std::string> visited;
-    std::unordered_map<std::string, std::string> parent;
-    std::stack<Node> s;
+    state.incrementMaxVisitedStates();
 
     if (initialNode.getString() == goalNode.getString())
     {
-        //s.push(initialNode);
-        return true;
+            return true;
     }
-    if (depthLimit <= 0)
+
+    if (state.getDepthLimit() <= 0)
     {
         return false;
     }
@@ -263,22 +161,18 @@ bool DFS(Node &initialNode, Node &goalNode,int depthLimit)
     for (std::vector<int> nei : adjacent(initialNode.getVector()))
     {
         Node neiNode(nei);
-        if (DFS(neiNode, goalNode, depthLimit - 1))
+        state.decrementDepthLimit(); //todo find out if this call causes trouble
+        if (DFS(neiNode, goalNode, state))
         {
-            parent[neiNode.getString()] = initialNode.getString();
-            //neiNode.printVector();
-
+            state.insertVisited(neiNode.getString());
+            state.addParent(neiNode.getString(),initialNode.getString());
             return true;
         }
-
-        if (visited.find(neiNode.getString()) == visited.end())
+        state.incrementDepthLimit(); //todo find out if this call causes trouble
+        if (state.findVisited(neiNode.getString()))
         {
-            visited.insert(neiNode.getString());
-            parent[neiNode.getString()] = initialNode.getString();
-
+            state.insertVisited(neiNode.getString());
         }
-
-
     }
     return false;
 }
@@ -294,20 +188,8 @@ std::vector<std::vector<int> > adjacent(std::vector<int> nums) {
     }
     return result;
 }
-/*  KNOWN GOOD
-std::vector<std::vector<int> > adjacent(std::vector<int> nums) {
-    std::vector<std::vector<int> > result;
-    for (int i = 0; i < nums.size(); ++i) {
-        for (int j = i + 1; j < nums.size(); ++j) {
-            std::vector<int> curr = nums;
-            reverse(curr.begin() + i, curr.begin() + j + 1);
-            result.push_back(curr);
-        }
-    }
-    return result;
-}
-*/
-void display_path(std::unordered_map<std::string, std::string> &parents, std::string src) {
+
+void display_path(std::unordered_map<std::string, std::string> &parents, std::string &src) {
     std::vector<std::string> path;
     while (src != "") {
         path.push_back(src);

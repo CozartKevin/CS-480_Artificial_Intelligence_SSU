@@ -75,12 +75,12 @@ preinstall:
 CMakeFiles\Project1.dir\all:
 	$(MAKE) -f CMakeFiles\Project1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Project1.dir\depend
 	$(MAKE) -f CMakeFiles\Project1.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Project1.dir\build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="G:\SSU Courses\CS480\CS480\Project1\cmake-build-debug\CMakeFiles" --progress-num=1,2,3 "Built target Project1"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir="G:\SSU Courses\CS480\CS480\Project1\cmake-build-debug\CMakeFiles" --progress-num=1,2,3,4 "Built target Project1"
 .PHONY : CMakeFiles\Project1.dir\all
 
 # Build rule for subdir invocation for target.
 CMakeFiles\Project1.dir\rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "G:\SSU Courses\CS480\CS480\Project1\cmake-build-debug\CMakeFiles" 3
+	$(CMAKE_COMMAND) -E cmake_progress_start "G:\SSU Courses\CS480\CS480\Project1\cmake-build-debug\CMakeFiles" 4
 	$(MAKE) -f CMakeFiles\Makefile2 /nologo -$(MAKEFLAGS) CMakeFiles\Project1.dir\all
 	$(CMAKE_COMMAND) -E cmake_progress_start "G:\SSU Courses\CS480\CS480\Project1\cmake-build-debug\CMakeFiles" 0
 .PHONY : CMakeFiles\Project1.dir\rule
