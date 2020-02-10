@@ -7,6 +7,8 @@
   </component>
   <component name="CMakeSettings">
     <configurations>
+      <configuration PROFILE_NAME="Default" />
+      <configuration PROFILE_NAME="Release-Visual Studio" CONFIG_NAME="Release" TOOLCHAIN_NAME="Visual Studio" />
       <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
     </configurations>
   </component>
@@ -21,12 +23,13 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Release-Visual Studio" />
   <component name="ProjectId" id="1WtsVZIVGUcdgIc7bihFkUykKqj" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="CMakeSettings" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -41,7 +44,7 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="Project1" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Project1" TARGET_NAME="Project1" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Project1" RUN_TARGET_NAME="Project1">
+    <configuration name="Project1" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Project1" TARGET_NAME="Project1" CONFIG_NAME="Default" RUN_TARGET_PROJECT_NAME="Project1" RUN_TARGET_NAME="Project1">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -58,6 +61,14 @@
       <workItem from="1580006125939" duration="6311000" />
       <workItem from="1580522531124" duration="10858000" />
       <workItem from="1580585915506" duration="35616000" />
+      <workItem from="1580622552928" duration="38000" />
+      <workItem from="1580622789397" duration="361000" />
+      <workItem from="1580949194507" duration="431000" />
+      <workItem from="1581177955669" duration="505000" />
+      <workItem from="1581194138423" duration="80000" />
+      <workItem from="1581194267862" duration="2000" />
+      <workItem from="1581195038271" duration="9395000" />
+      <workItem from="1581262419514" duration="53000" />
     </task>
     <servers />
   </component>

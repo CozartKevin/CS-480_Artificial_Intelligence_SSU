@@ -4,30 +4,25 @@
 #include <iostream>
 #include <unordered_map>
 #include <unordered_set>
+
 #ifndef PROJECT1_PARAMETEROBJECT_HPP
 #define PROJECT1_PARAMETEROBJECT_HPP
 
 
 class parameterObject {
 public:
-    parameterObject(){maxVisitedStates = 0, parent;};
-
-    void incrementMaxVisitedStates(){maxVisitedStates++;};
-    int getMaxVisitedStates(){return maxVisitedStates;};
-
+    parameterObject(){ maxVisitedStates = 0, parent; };
+    void incrementMaxVisitedStates(){ maxVisitedStates++; };
+    int getMaxVisitedStates(){ return maxVisitedStates; };
     void addParent(std::string s1, std::string s2);
-
-    std::unordered_map<std::string,std::string>& getParent(){return parent;};
-
-    void insertVisited(std::string s){visited.insert(s);};
+    std::unordered_map<std::string, std::string> &getParent(){ return parent; };
+    void insertVisited(std::string s){ visited.insert(s); };
     bool findVisited(std::string s);
-    void resetVisited(){visited.clear();};
-
+    void resetVisited(){ visited.clear(); };
     void incrementDepthLimit();;
-    int getDepthLimit(){return depthLimit;};
-    void decrementDepthLimit(){depthLimit--;};
-
-    int getMaxDepth(){return maxDepth;};
+    int getDepthLimit(){ return depthLimit; };
+    void decrementDepthLimit(){ depthLimit--; };
+    int getMaxDepth(){ return maxDepth; };
 
 private:
     int maxVisitedStates = 0;

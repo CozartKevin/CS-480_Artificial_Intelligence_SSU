@@ -1,0 +1,56 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+G:/SSU Courses/CS480/CS480/Project1/Node.cpp
+iostream
+-
+Node.hpp
+G:/SSU Courses/CS480/CS480/Project1/Node.hpp
+
+G:/SSU Courses/CS480/CS480/Project1/Node.hpp
+vector
+-
+string
+-
+
+G:/SSU Courses/CS480/CS480/Project1/main.cpp
+iostream
+-
+sstream
+-
+iterator
+-
+set
+-
+queue
+-
+stack
+-
+ctime
+-
+cmath
+-
+algorithm
+-
+Node.hpp
+G:/SSU Courses/CS480/CS480/Project1/Node.hpp
+parameterObject.hpp
+G:/SSU Courses/CS480/CS480/Project1/parameterObject.hpp
+
+G:/SSU Courses/CS480/CS480/Project1/parameterObject.cpp
+parameterObject.hpp
+G:/SSU Courses/CS480/CS480/Project1/parameterObject.hpp
+
+G:/SSU Courses/CS480/CS480/Project1/parameterObject.hpp
+iostream
+-
+unordered_map
+-
+unordered_set
+-
+

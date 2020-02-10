@@ -14,8 +14,10 @@ bool parameterObject::findVisited(std::string s)
     return (visited.find(s) == visited.end());
 }
 
-void parameterObject::incrementDepthLimit(){
-    if((depthLimit + 1) > maxDepth){
+void parameterObject::incrementDepthLimit()
+{
+    if ((depthLimit + 1) > maxDepth)
+    {
         maxDepth = depthLimit + 1;
     }
     depthLimit++;
