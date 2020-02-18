@@ -14,10 +14,10 @@ public:
     parameterObject(){ maxVisitedStates = 0, parent; };
     void incrementMaxVisitedStates(){ maxVisitedStates++; };
     int getMaxVisitedStates(){ return maxVisitedStates; };
-    void addParent(std::string s1, std::string s2);
-    std::unordered_map<std::string, std::string> &getParent(){ return parent; };
-    void insertVisited(std::string s){ visited.insert(s); };
-    bool findVisited(std::string s);
+    void addParent(long long s1, long long s2);
+    std::unordered_map<long long, long long> &getParent(){ return parent; };
+    void insertVisited(long long i){ visited.insert(i); };
+    bool findVisited(long long i);
     void resetVisited(){ visited.clear(); };
     void incrementDepthLimit();;
     int getDepthLimit(){ return depthLimit; };
@@ -26,8 +26,8 @@ public:
 
 private:
     int maxVisitedStates = 0;
-    std::unordered_map<std::string, std::string> parent;
-    std::unordered_set<std::string> visited;
+    std::unordered_map<long long, long long> parent;
+    std::unordered_set<long long> visited;
     int depthLimit = 0;
     int maxDepth = 0;
 };

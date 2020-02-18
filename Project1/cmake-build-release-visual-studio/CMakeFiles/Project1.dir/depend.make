@@ -5,6 +5,7 @@ CMakeFiles\Project1.dir\Node.cpp.obj: ..\Node.cpp
 CMakeFiles\Project1.dir\Node.cpp.obj: ..\Node.hpp
 
 CMakeFiles\Project1.dir\main.cpp.obj: ..\Node.hpp
+CMakeFiles\Project1.dir\main.cpp.obj: ..\greater.hpp
 CMakeFiles\Project1.dir\main.cpp.obj: ..\main.cpp
 CMakeFiles\Project1.dir\main.cpp.obj: ..\parameterObject.hpp
 

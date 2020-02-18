@@ -4,14 +4,14 @@
 
 #include "parameterObject.hpp"
 
-void parameterObject::addParent(std::string s1, std::string s2)
+void parameterObject::addParent(long long l1, long long l2)
 {
-    parent[s1] = s2;
+    parent[l1] = l2;
 }
 
-bool parameterObject::findVisited(std::string s)
+bool parameterObject::findVisited(long long i)
 {
-    return (visited.find(s) == visited.end());
+    return (visited.find(i) == visited.end());
 }
 
 void parameterObject::incrementDepthLimit()

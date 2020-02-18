@@ -11,16 +11,17 @@
 class Node {
 public:
     explicit Node(std::vector<int> v);
-    std::string static convertVector(std::vector<int> v);
+    long long static convertVector(const std::vector<int> &v);
     std::vector<int> getVector(){ return vector; }
-    std::string &getString(){ return string; }
+    long long &getNumber(){ return number; }
+
     void setVector(std::vector<int> &vectorSetTo){ vector = vectorSetTo; }
-    void setString(const std::string &s){ string = s; }
+    void setNumber(const long long &s){ number = s; }
     void printVector();
 
 private:
     std::vector<int> vector;
-    std::string string;
+    long long number;
     Node *parent;
 };
 

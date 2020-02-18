@@ -9,17 +9,19 @@
 #include <algorithm>
 #include "Node.hpp"
 #include "parameterObject.hpp"
+#include "greater.hpp"
 
 int visitedForDebug = 0;
 
-bool BFS(Node &initialNode, Node &goalNode);
+bool A_Star(Node &initialNode, Node &goalNode);
 
 bool IDS(Node &initialNode, Node &goalNode);
 
 bool DFS(Node &initialNode, Node &goalNode, parameterObject &paraObj);
 
-void display_path(std::unordered_map<std::string, std::string> &parents, std::string &src);
-
+void display_path(std::unordered_map<long long, long long> &parents, long long &src);
+bool greaterThen(Node lhs, Node rhs);
+int h(Node node);
 int main()
 {
 
@@ -41,6 +43,7 @@ int main()
             vectorInput.erase(vectorInput.begin() + x, vectorInput.end());
         }
     }
+
     std::vector<int> goalVector = vectorInput;
     sort(goalVector.begin(), goalVector.end());
     for (int i = 0; i < goalVector.size(); i++)
@@ -60,30 +63,32 @@ int main()
 
     //BFS
     std::clock_t c_start = std::clock();
-    BFS(initialNode, goalNode);
+    A_Star(initialNode, goalNode);
     std::clock_t c_end = std::clock();
     double time_elapsed_ms = 1000.0 * (c_end - c_start) / CLOCKS_PER_SEC;
     std::cout << "CPU time used: " << time_elapsed_ms / 1000.0 << " s\n" << std::endl;
-
+    std::cin.get();
     //IDS
-    IDS(initialNode, goalNode);
+    //  IDS(initialNode, goalNode);
 }
 
-bool BFS(Node &initialNode, Node &goalNode)
+bool A_Star(Node &initialNode, Node &goalNode)
 {
 
 
     int queueSize = 0;
-    std::queue<Node> q;
-    std::unordered_set<std::string> visited;
-    std::unordered_map<std::string, std::string> parent;
-    parent[initialNode.getString()] = "";
-    q.push(initialNode);
-    visited.insert(initialNode.getString());
-    std::cout << "Start BFS:" << std::endl;
+    int visited = 0;
+    // std::queue<Node> q;
+    std::priority_queue <std::pair<Node,int>, std::vector<std::pair<Node,int>>, greater> q;
+    //std::unordered_set<long long> visited;
+    std::unordered_map<long long, long long> parent;
+    parent[initialNode.getNumber()] = 0;
+    q.push(std::pair(initialNode,h(initialNode)));
+    visited++;
+    std::cout << "Start A*:" << std::endl;
 
 
-    if (initialNode.getString() == goalNode.getString())
+    if (initialNode.getVector() == goalNode.getVector())
     {
         initialNode.printVector();
         return true;
@@ -91,15 +96,15 @@ bool BFS(Node &initialNode, Node &goalNode)
 
     while (!q.empty())
     {
-        Node currentNode = q.front();
+        std::pair<Node,int> currentNode = q.top();
         q.pop();
-        if (currentNode.getString() == goalNode.getString())
+        if (currentNode.first.getVector() == goalNode.getVector())
         {
-            display_path(parent, currentNode.getString());
+            display_path(parent, currentNode.first.getNumber());
             return true;
         }
         Node neiNode(initialNode);
-        std::vector<int> nums = currentNode.getVector();
+        std::vector<int> nums = currentNode.first.getVector();
 
         for (int i = 0; i < nums.size(); ++i)
         {
@@ -108,27 +113,27 @@ bool BFS(Node &initialNode, Node &goalNode)
 
                 reverse(nums.begin() + i, nums.begin() + j + 1);
                 std::vector<int> &nei = nums;
-
+                neiNode.setNumber(Node::convertVector(nei));
                 neiNode.setVector(nei);
-                neiNode.setString(Node::convertVector(nei));
-                if (neiNode.getString() == goalNode.getString())
+                if (neiNode.getVector() == goalNode.getVector())
                 {
-                    parent[neiNode.getString()] = currentNode.getString();
-                    display_path(parent, neiNode.getString());
-                    std::cout << "The total number of states visited was " << visited.size() << std::endl;
+                    parent[neiNode.getNumber()] = currentNode.first.getNumber();
+                    display_path(parent, neiNode.getNumber());
+                    std::cout << "The total number of states visited was " << visited << std::endl;
                     std::cout << "The max size of the queue/stack was " << queueSize << std::endl;
                     return true;
                 }
 
-                if (visited.find(neiNode.getString()) == visited.end())
+                visited++;
+
+                if (parent.find(neiNode.getNumber()) == parent.end()) {
+
+                    parent[neiNode.getNumber()] = currentNode.first.getNumber();
+                }
+                q.push(std::pair(neiNode,h(neiNode) + 2));
+                if (q.size() > queueSize)
                 {
-                    visited.insert(neiNode.getString());
-                    parent[neiNode.getString()] = currentNode.getString();
-                    q.push(neiNode);
-                    if (q.size() > queueSize)
-                    {
-                        queueSize = q.size();
-                    }
+                    queueSize = q.size();
                 }
 
                 reverse(nums.begin() + i, nums.begin() + j + 1);
@@ -144,7 +149,7 @@ bool IDS(Node &initialNode, Node &goalNode)
 {
     std::clock_t c_start = std::clock();
     std::cout << "Start IDS:" << std::endl;
-    std::unordered_map<std::string, std::string> parent;
+    std::unordered_map<long long, long long> parent;
     int depthLimit = 0;
     parameterObject state;
 
@@ -153,7 +158,7 @@ bool IDS(Node &initialNode, Node &goalNode)
         state.incrementDepthLimit();
     }
 
-    display_path(state.getParent(), goalNode.getString());
+    display_path(state.getParent(), goalNode.getNumber());
     std::clock_t c_end = std::clock();
     double time_elapsed_ms = 1000.0 * (c_end - c_start) / CLOCKS_PER_SEC;
     std::cout << "CPU time used: " << time_elapsed_ms / 1000.0 << " s\n";
@@ -167,7 +172,7 @@ bool DFS(Node &initialNode, Node &goalNode, parameterObject &state)
 {
     state.incrementMaxVisitedStates();
 
-    if (initialNode.getString() == goalNode.getString())
+    if (initialNode.getVector() == goalNode.getVector())
     {
         return true;
     }
@@ -190,19 +195,18 @@ bool DFS(Node &initialNode, Node &goalNode, parameterObject &state)
             std::vector<int> &nei = nums;
 
             neiNode.setVector(nei);
-            neiNode.setString(Node::convertVector(nei));
-
+            neiNode.setNumber(Node::convertVector(nei));
             state.decrementDepthLimit(); //todo find out if this call causes trouble
             if (DFS(neiNode, goalNode, state))
             {
-                state.insertVisited(neiNode.getString());
-                state.addParent(neiNode.getString(), initialNode.getString());
+                state.insertVisited(neiNode.getNumber());
+                state.addParent(neiNode.getNumber(), initialNode.getNumber());
                 return true;
             }
             state.incrementDepthLimit(); //todo find out if this call causes trouble
-            if (state.findVisited(neiNode.getString()))
+            if (state.findVisited(neiNode.getNumber()))
             {
-                state.insertVisited(neiNode.getString());
+                state.insertVisited(neiNode.getNumber());
             }
 
 
@@ -214,27 +218,40 @@ bool DFS(Node &initialNode, Node &goalNode, parameterObject &state)
     return false;
 }
 
-void display_path(std::unordered_map<std::string, std::string> &parents, std::string &src)
+void display_path(std::unordered_map<long long, long long> &parents, long long &src)
 {
     std::vector<std::string> path;
-    while (src != "")
-    {
-        path.push_back(src);
+
+    while (src != 0) {
+        path.push_back(std::to_string(src));
         src = parents[src];
     }
     reverse(path.begin(), path.end());
-    for (int i = 0; i < path.size(); ++i)
-    {
+    for (int i = 0; i < path.size(); ++i) {
         std::string output;
         std::string temp = path[i];
-        for (int j = 0; j < path[i].size(); j++)
-        {
+        for (int j = 0; j < path[i].size(); j++) {
             output = output + temp[j] + " ";
         }
         std::cout << output << std::endl;
     }
 }
 
+bool greaterThen(Node lhs, Node rhs){
+    return lhs.getNumber() > rhs.getNumber();
+}
 
+int h(Node node)
+{
+    int numberOfBreakpoints = 0;
+    for(int i = 0; i < node.getVector().size() - 1; i++){
+
+        if(abs(node.getVector()[i] - node.getVector()[i+1]) != 1 ){
+            numberOfBreakpoints++;
+        }
+    }
+
+    return numberOfBreakpoints;
+}
 
 

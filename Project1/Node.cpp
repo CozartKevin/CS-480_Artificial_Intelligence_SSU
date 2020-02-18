@@ -8,18 +8,22 @@
 Node::Node(std::vector<int> v)
 {
     vector = v;
-    string = convertVector(v);
+    number = convertVector(v);
     parent;
 }
 
-std::string Node::convertVector(std::vector<int> v)
+long long Node::convertVector(const std::vector<int> &v)
 {
-    std::string convertedString;
+    long long temp = 0;
     for (int i = 0; i < v.size(); i++)
     {
-        convertedString += std::to_string(v[i]);
+        temp += v[i];
+        if(i + 1 != v.size())
+        {
+            temp *= 10;
+        }
     }
-    return convertedString;
+    return temp;
 }
 
 void Node::printVector()
@@ -32,6 +36,7 @@ void Node::printVector()
     std::cout << std::endl;
 
 }
+
 
 
 
