@@ -15,10 +15,6 @@ int visitedForDebug = 0;
 
 bool A_Star(Node &initialNode, Node &goalNode);
 
-bool IDS(Node &initialNode, Node &goalNode);
-
-bool DFS(Node &initialNode, Node &goalNode, parameterObject &paraObj);
-
 void display_path(std::unordered_map<long long, long long> &parents, long long &src);
 bool greaterThen(Node lhs, Node rhs);
 int h(Node node);
