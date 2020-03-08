@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+G:/SSU Courses/CS480/Project3/board.hpp
+vector
+-
+
+G:/SSU Courses/CS480/Project3/main.cpp
+iostream
+-
+string
+-
+board.hpp
+G:/SSU Courses/CS480/Project3/board.hpp
+math.h
+-
+
