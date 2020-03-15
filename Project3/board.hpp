@@ -12,11 +12,11 @@ public:
     board(std::vector< std::vector<char> > userInputVector);
     void getBoardfromUser();
     std::vector<std::vector<char>> getBoard(){return boardVec;};
-   // float MinMax();
-   // void MinMaxAlphaBeta();
-   // int eval();
-    void setMaxNodeExpansion(){maxNodeExpansion++;}
-    int getMaxNodeExpansion(){return maxNodeExpansion;}
+    void setBoard(board board);
+    void setMaxNodeExpansion(){maxNodeExpansion++;};
+    int getMaxNodeExpansion(){return maxNodeExpansion;};
+    int getCurrentPlayer(){return currentPlayer;};
+    void setCurrentPlayer(int CP){ currentPlayer = CP;};
     void printBoard();
     void setDepthOfK();
     void setMax(int m){max = m;};
@@ -27,8 +27,7 @@ public:
     float getVal(){return val;};
     void increaseMaxNodeExpansion(){maxNodeExpansion = maxNodeExpansion + 1;};
     int getDepthOfK(){return depthOfK;};
-    //int leaf(std::vector< std::vector<char> > vector);
-   // bool isValid();
+
 
 private:
     //Player X represented as 1, Player O represented as -1, blank space represented as a 0;
@@ -38,7 +37,7 @@ private:
     int min;
     int max;
     float val;
-
+    int currentPlayer;
 
 
 

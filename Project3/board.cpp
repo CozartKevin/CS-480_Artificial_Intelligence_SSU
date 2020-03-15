@@ -85,3 +85,11 @@ void board::setDepthOfK()
       }
     depthOfK = kDepth;
 }
+
+void board::setBoard(board board)
+{
+    this->boardVec.swap(board.boardVec);
+
+}
+
+
