@@ -50,48 +50,48 @@ The CXX compiler identification is MSVC, found in "G:/SSU Courses/CS480/CS480/Pr
 Determining if the C compiler works passed with the following output:
 Change Dir: G:/SSU Courses/CS480/CS480/Project4/cmake-build-release-visual-studio/CMakeFiles/CMakeTmp
 
-Run Build Command(s):nmake /nologo cmTC_6ce8b\fast && 	"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86\nmake.exe" -f CMakeFiles\cmTC_6ce8b.dir\build.make /nologo -L                  CMakeFiles\cmTC_6ce8b.dir\build
-Building C object CMakeFiles/cmTC_6ce8b.dir/testCCompiler.c.obj
-	C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\cl.exe @C:\Users\Raggdoll\AppData\Local\Temp\nmC66D.tmp
+Run Build Command(s):nmake /nologo cmTC_d0ad3\fast && 	"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86\nmake.exe" -f CMakeFiles\cmTC_d0ad3.dir\build.make /nologo -L                  CMakeFiles\cmTC_d0ad3.dir\build
+Building C object CMakeFiles/cmTC_d0ad3.dir/testCCompiler.c.obj
+	C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\cl.exe @C:\Users\Raggdoll\AppData\Local\Temp\nm4365.tmp
 testCCompiler.c
-Linking C executable cmTC_6ce8b.exe
-	"C:\Program Files\JetBrains\CLion 2019.2\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_6ce8b.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\mt.exe --manifests  -- C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_6ce8b.dir\objects1.rsp @C:\Users\Raggdoll\AppData\Local\Temp\nmC72A.tmp
+Linking C executable cmTC_d0ad3.exe
+	"C:\Program Files\JetBrains\CLion 2019.2\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_d0ad3.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\mt.exe --manifests  -- C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_d0ad3.dir\objects1.rsp @C:\Users\Raggdoll\AppData\Local\Temp\nm4636.tmp
 
 
 
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: G:/SSU Courses/CS480/CS480/Project4/cmake-build-release-visual-studio/CMakeFiles/CMakeTmp
 
-Run Build Command(s):nmake /nologo cmTC_ba87c\fast && 	"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86\nmake.exe" -f CMakeFiles\cmTC_ba87c.dir\build.make /nologo -L                  CMakeFiles\cmTC_ba87c.dir\build
-Building C object CMakeFiles/cmTC_ba87c.dir/CMakeCCompilerABI.c.obj
-	C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\cl.exe @C:\Users\Raggdoll\AppData\Local\Temp\nmCA55.tmp
+Run Build Command(s):nmake /nologo cmTC_83498\fast && 	"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86\nmake.exe" -f CMakeFiles\cmTC_83498.dir\build.make /nologo -L                  CMakeFiles\cmTC_83498.dir\build
+Building C object CMakeFiles/cmTC_83498.dir/CMakeCCompilerABI.c.obj
+	C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\cl.exe @C:\Users\Raggdoll\AppData\Local\Temp\nm4B27.tmp
 CMakeCCompilerABI.c
-Linking C executable cmTC_ba87c.exe
-	"C:\Program Files\JetBrains\CLion 2019.2\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_ba87c.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\mt.exe --manifests  -- C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_ba87c.dir\objects1.rsp @C:\Users\Raggdoll\AppData\Local\Temp\nmCAD3.tmp
+Linking C executable cmTC_83498.exe
+	"C:\Program Files\JetBrains\CLion 2019.2\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_83498.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\mt.exe --manifests  -- C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_83498.dir\objects1.rsp @C:\Users\Raggdoll\AppData\Local\Temp\nm4BC3.tmp
 
 
 
 Determining if the CXX compiler works passed with the following output:
 Change Dir: G:/SSU Courses/CS480/CS480/Project4/cmake-build-release-visual-studio/CMakeFiles/CMakeTmp
 
-Run Build Command(s):nmake /nologo cmTC_6e8a6\fast && 	"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86\nmake.exe" -f CMakeFiles\cmTC_6e8a6.dir\build.make /nologo -L                  CMakeFiles\cmTC_6e8a6.dir\build
-Building CXX object CMakeFiles/cmTC_6e8a6.dir/testCXXCompiler.cxx.obj
-	C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\cl.exe @C:\Users\Raggdoll\AppData\Local\Temp\nmCE5C.tmp
+Run Build Command(s):nmake /nologo cmTC_43053\fast && 	"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86\nmake.exe" -f CMakeFiles\cmTC_43053.dir\build.make /nologo -L                  CMakeFiles\cmTC_43053.dir\build
+Building CXX object CMakeFiles/cmTC_43053.dir/testCXXCompiler.cxx.obj
+	C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\cl.exe @C:\Users\Raggdoll\AppData\Local\Temp\nm4F6B.tmp
 testCXXCompiler.cxx
-Linking CXX executable cmTC_6e8a6.exe
-	"C:\Program Files\JetBrains\CLion 2019.2\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_6e8a6.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\mt.exe --manifests  -- C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_6e8a6.dir\objects1.rsp @C:\Users\Raggdoll\AppData\Local\Temp\nmCEFA.tmp
+Linking CXX executable cmTC_43053.exe
+	"C:\Program Files\JetBrains\CLion 2019.2\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_43053.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\mt.exe --manifests  -- C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_43053.dir\objects1.rsp @C:\Users\Raggdoll\AppData\Local\Temp\nm50A5.tmp
 
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: G:/SSU Courses/CS480/CS480/Project4/cmake-build-release-visual-studio/CMakeFiles/CMakeTmp
 
-Run Build Command(s):nmake /nologo cmTC_cceb5\fast && 	"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86\nmake.exe" -f CMakeFiles\cmTC_cceb5.dir\build.make /nologo -L                  CMakeFiles\cmTC_cceb5.dir\build
-Building CXX object CMakeFiles/cmTC_cceb5.dir/CMakeCXXCompilerABI.cpp.obj
-	C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\cl.exe @C:\Users\Raggdoll\AppData\Local\Temp\nmD216.tmp
+Run Build Command(s):nmake /nologo cmTC_d8f81\fast && 	"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86\nmake.exe" -f CMakeFiles\cmTC_d8f81.dir\build.make /nologo -L                  CMakeFiles\cmTC_d8f81.dir\build
+Building CXX object CMakeFiles/cmTC_d8f81.dir/CMakeCXXCompilerABI.cpp.obj
+	C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\cl.exe @C:\Users\Raggdoll\AppData\Local\Temp\nm542E.tmp
 CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_cceb5.exe
-	"C:\Program Files\JetBrains\CLion 2019.2\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_cceb5.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\mt.exe --manifests  -- C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_cceb5.dir\objects1.rsp @C:\Users\Raggdoll\AppData\Local\Temp\nmD2B3.tmp
+Linking CXX executable cmTC_d8f81.exe
+	"C:\Program Files\JetBrains\CLion 2019.2\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\cmTC_d8f81.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\mt.exe --manifests  -- C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\cmTC_d8f81.dir\objects1.rsp @C:\Users\Raggdoll\AppData\Local\Temp\nm54EB.tmp
 
 
 
