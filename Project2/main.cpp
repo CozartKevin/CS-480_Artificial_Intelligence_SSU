@@ -1,3 +1,5 @@
+//Kevin Cozart, Herbert Gutierrez Lemus, Shahar Kadoch
+
 #include <iostream>
 #include <sstream>
 #include <iterator>
@@ -49,7 +51,7 @@ int main()
     Node initialNode(vectorInput);
     Node goalNode(goalVector);
 
-    //BFS
+    //A*
     std::clock_t c_start = std::clock();
     A_Star(initialNode, goalNode);
     std::clock_t c_end = std::clock();
