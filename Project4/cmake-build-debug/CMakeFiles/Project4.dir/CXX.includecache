@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+G:/SSU Courses/CS480/CS480/Project4/ImageObject.cpp
+ImageObject.hpp
+G:/SSU Courses/CS480/CS480/Project4/ImageObject.hpp
+iostream
+-
+
+G:/SSU Courses/CS480/CS480/Project4/ImageObject.hpp
+vector
+-
+
+G:/SSU Courses/CS480/CS480/Project4/main.cpp
+iostream
+-
+vector
+-
+cstddef
+-
+fstream
+-
+string
+-
+array
+-
+ImageObject.hpp
+G:/SSU Courses/CS480/CS480/Project4/ImageObject.hpp
+

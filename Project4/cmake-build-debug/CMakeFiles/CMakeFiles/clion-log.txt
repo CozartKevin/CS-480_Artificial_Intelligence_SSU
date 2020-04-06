@@ -1,0 +1,2 @@
+Cannot generate 'Debug' into G:\SSU Courses\CS480\CS480\Project4\cmake-build-debug\CMakeFiles
+CMakeCache.txt is found in the project dir, only in-source generation will be performed.

@@ -77,17 +77,38 @@ CMakeFiles\Project4.dir\main.cpp.s: cmake_force
  /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\Project4.dir\main.cpp.s /c "G:\SSU Courses\CS480\CS480\Project4\main.cpp"
 <<
 
+CMakeFiles\Project4.dir\ImageObject.cpp.obj: CMakeFiles\Project4.dir\flags.make
+CMakeFiles\Project4.dir\ImageObject.cpp.obj: ..\ImageObject.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="G:\SSU Courses\CS480\CS480\Project4\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Project4.dir/ImageObject.cpp.obj"
+	C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\cl.exe @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoCMakeFiles\Project4.dir\ImageObject.cpp.obj /FdCMakeFiles\Project4.dir\ /FS -c "G:\SSU Courses\CS480\CS480\Project4\ImageObject.cpp"
+<<
+
+CMakeFiles\Project4.dir\ImageObject.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project4.dir/ImageObject.cpp.i"
+	C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\cl.exe > CMakeFiles\Project4.dir\ImageObject.cpp.i @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "G:\SSU Courses\CS480\CS480\Project4\ImageObject.cpp"
+<<
+
+CMakeFiles\Project4.dir\ImageObject.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project4.dir/ImageObject.cpp.s"
+	C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\cl.exe @<<
+ /nologo /TP $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) /FoNUL /FAs /FaCMakeFiles\Project4.dir\ImageObject.cpp.s /c "G:\SSU Courses\CS480\CS480\Project4\ImageObject.cpp"
+<<
+
 # Object files for target Project4
 Project4_OBJECTS = \
-"CMakeFiles\Project4.dir\main.cpp.obj"
+"CMakeFiles\Project4.dir\main.cpp.obj" \
+"CMakeFiles\Project4.dir\ImageObject.cpp.obj"
 
 # External object files for target Project4
 Project4_EXTERNAL_OBJECTS =
 
 Project4.exe: CMakeFiles\Project4.dir\main.cpp.obj
+Project4.exe: CMakeFiles\Project4.dir\ImageObject.cpp.obj
 Project4.exe: CMakeFiles\Project4.dir\build.make
 Project4.exe: CMakeFiles\Project4.dir\objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="G:\SSU Courses\CS480\CS480\Project4\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable Project4.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="G:\SSU Courses\CS480\CS480\Project4\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable Project4.exe"
 	"C:\Program Files\JetBrains\CLion 2019.2\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\Project4.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100183~1.0\x86\mt.exe --manifests  -- C:\PROGRA~2\MICROS~1\2017\ENTERP~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\Project4.dir\objects1.rsp @<<
  /out:Project4.exe /implib:Project4.lib /pdb:"G:\SSU Courses\CS480\CS480\Project4\cmake-build-debug\Project4.pdb" /version:0.0  /machine:X86 /debug /INCREMENTAL /subsystem:console kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib 
 <<

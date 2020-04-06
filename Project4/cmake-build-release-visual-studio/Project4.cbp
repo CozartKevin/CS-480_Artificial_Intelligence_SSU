@@ -84,6 +84,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="G:/SSU Courses/CS480/CS480/Project4/ImageObject.cpp">
+			<Option target="Project4"/>
+		</Unit>
+		<Unit filename="G:/SSU Courses/CS480/CS480/Project4/ImageObject.hpp">
+			<Option target="Project4"/>
+		</Unit>
 		<Unit filename="G:/SSU Courses/CS480/CS480/Project4/main.cpp">
 			<Option target="Project4"/>
 		</Unit>

@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "G:/SSU Courses/CS480/CS480/Project4/ImageObject.cpp" "G:/SSU Courses/CS480/CS480/Project4/cmake-build-release-visual-studio/CMakeFiles/Project4.dir/ImageObject.cpp.obj"
   "G:/SSU Courses/CS480/CS480/Project4/main.cpp" "G:/SSU Courses/CS480/CS480/Project4/cmake-build-release-visual-studio/CMakeFiles/Project4.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "MSVC")

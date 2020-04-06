@@ -1,0 +1,3 @@
+G:/SSU Courses/CS480/CS480/Project4/CMakeFiles/Project4.dir
+G:/SSU Courses/CS480/CS480/Project4/CMakeFiles/edit_cache.dir
+G:/SSU Courses/CS480/CS480/Project4/CMakeFiles/rebuild_cache.dir

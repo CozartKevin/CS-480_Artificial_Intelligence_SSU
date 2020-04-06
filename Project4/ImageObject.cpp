@@ -3,7 +3,9 @@
 //
 
 #include "ImageObject.hpp"
-ImageObject::ImageObject(std::vector<std::vector<int>> initialImage){
+#include <iostream>
+ImageObject::ImageObject(int l, std::vector<std::vector<int>> initialImage){
+    label = l;
     setDensity(initialImage);
     setSymmetry(initialImage);
     setIntersections(initialImage);
@@ -24,13 +26,17 @@ void ImageObject::setDensity(std::vector<std::vector<int>> initialImage){
 
 }
 void ImageObject::setSymmetry(std::vector<std::vector<int>> initialImage){
+
     int total = 0;
     for(int i = 0; i < initialImage.size()/2; i++){
         for(int j = 0; j < initialImage[i].size(); j++){
-            total = total + (initialImage[i][j] ^ initialImage[initialImage.size()-i][j]);
+            total = total + (initialImage[i][j] ^ initialImage[initialImage.size()-i - 1][j]);
+           // total = total + (abs(initialImage[i][j] - initialImage[initialImage.size()-i - 1][j]));
         }
     }
-ImageProcessed[1] = total / ((initialImage.size()/2) * initialImage.size())
+
+ImageProcessed[1] = total / ((initialImage.size()/2) * initialImage.size());
+
 }
 
 void ImageObject::setIntersections(std::vector<std::vector<int>> initialImage)
@@ -40,6 +46,10 @@ void ImageObject::setIntersections(std::vector<std::vector<int>> initialImage)
     int verticalTotalCount = 0;
     int maxVerticalTotalCount = 0;
     std::vector<std::vector<bool>> outputVector;
+    outputVector.resize(initialImage.size());
+    for(auto & vec :outputVector){
+        vec.resize(initialImage.size());
+    }
     for(int i = 0; i < initialImage.size(); i++){
         for(int j = 0; j < initialImage[i].size(); j++)
         {
@@ -64,9 +74,8 @@ void ImageObject::setIntersections(std::vector<std::vector<int>> initialImage)
                 }
             }
             if(j != 0){
-                if(outputVector[i][j] != outputVector[i][j-1]
-            {
-                    vertTotalCount++;
+                if(outputVector[i][j] != outputVector[i][j-1]){
+                    verticalTotalCount++;
                     if(maxVerticalTotalCount < verticalTotalCount){
                         maxVerticalTotalCount = verticalTotalCount;
                     }

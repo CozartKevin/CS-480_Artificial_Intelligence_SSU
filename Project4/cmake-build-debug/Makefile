@@ -124,6 +124,33 @@ Project4\fast:
 	$(MAKE) -f CMakeFiles\Project4.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Project4.dir\build
 .PHONY : Project4\fast
 
+ImageObject.obj: ImageObject.cpp.obj
+
+.PHONY : ImageObject.obj
+
+# target to build an object file
+ImageObject.cpp.obj:
+	$(MAKE) -f CMakeFiles\Project4.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Project4.dir\ImageObject.cpp.obj
+.PHONY : ImageObject.cpp.obj
+
+ImageObject.i: ImageObject.cpp.i
+
+.PHONY : ImageObject.i
+
+# target to preprocess a source file
+ImageObject.cpp.i:
+	$(MAKE) -f CMakeFiles\Project4.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Project4.dir\ImageObject.cpp.i
+.PHONY : ImageObject.cpp.i
+
+ImageObject.s: ImageObject.cpp.s
+
+.PHONY : ImageObject.s
+
+# target to generate assembly for a file
+ImageObject.cpp.s:
+	$(MAKE) -f CMakeFiles\Project4.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\Project4.dir\ImageObject.cpp.s
+.PHONY : ImageObject.cpp.s
+
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -160,6 +187,9 @@ help:
 	@echo ... Project4
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... ImageObject.obj
+	@echo ... ImageObject.i
+	@echo ... ImageObject.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
