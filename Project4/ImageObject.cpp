@@ -14,7 +14,7 @@ ImageObject::ImageObject(int l, std::vector<std::vector<int>> initialImage){
 
 
 void ImageObject::setDensity(std::vector<std::vector<int>> initialImage){
-    int total = 0;
+    double total = 0;
     for(int i = 0; i < initialImage.size(); i++){
         for(int j = 0; j < initialImage[i].size(); j++)
         {
@@ -27,15 +27,15 @@ void ImageObject::setDensity(std::vector<std::vector<int>> initialImage){
 }
 void ImageObject::setSymmetry(std::vector<std::vector<int>> initialImage){
 
-    int total = 0;
+     unsigned int total = 0;
     for(int i = 0; i < initialImage.size()/2; i++){
         for(int j = 0; j < initialImage[i].size(); j++){
-            total = total + (initialImage[i][j] ^ initialImage[initialImage.size()-i - 1][j]);
-           // total = total + (abs(initialImage[i][j] - initialImage[initialImage.size()-i - 1][j]));
+            total = total + (static_cast<unsigned int>(initialImage[i][j]) ^ static_cast<unsigned int>(initialImage[i][initialImage.size() - j - 1]));
+          //  total = total + (abs(initialImage[i][j] - initialImage[initialImage.size()-i - 1][j]));
         }
     }
 
-ImageProcessed[1] = total / ((initialImage.size()/2) * initialImage.size());
+ImageProcessed[1] = total / ((static_cast<double>(initialImage.size())/2) * initialImage.size());
 
 }
 
@@ -43,14 +43,18 @@ void ImageObject::setIntersections(std::vector<std::vector<int>> initialImage)
 {
     int horizontalTotalCount = 0;
     int maxHorizontalCount = 0;
+    int horizontalCount = 0;
     int verticalTotalCount = 0;
+    int verticalCount = 0;
     int maxVerticalTotalCount = 0;
     std::vector<std::vector<bool>> outputVector;
     outputVector.resize(initialImage.size());
     for(auto & vec :outputVector){
         vec.resize(initialImage.size());
     }
+
     for(int i = 0; i < initialImage.size(); i++){
+        horizontalCount = 0;
         for(int j = 0; j < initialImage[i].size(); j++)
         {
 
@@ -68,16 +72,18 @@ void ImageObject::setIntersections(std::vector<std::vector<int>> initialImage)
                 if (outputVector[i][j] != outputVector[i - 1][j])
                 {
                     horizontalTotalCount++;
-                    if(maxHorizontalCount  < horizontalTotalCount){
-                        maxHorizontalCount = horizontalTotalCount;
+                    horizontalCount++;
+                    if(maxHorizontalCount  < horizontalCount){
+                        maxHorizontalCount = horizontalCount;
                     }
                 }
             }
             if(j != 0){
                 if(outputVector[i][j] != outputVector[i][j-1]){
                     verticalTotalCount++;
-                    if(maxVerticalTotalCount < verticalTotalCount){
-                        maxVerticalTotalCount = verticalTotalCount;
+                    verticalCount++;
+                    if(maxVerticalTotalCount < verticalCount){
+                        maxVerticalTotalCount = verticalCount;
                     }
             }
         }
@@ -85,9 +91,9 @@ void ImageObject::setIntersections(std::vector<std::vector<int>> initialImage)
     }
 
     ImageProcessed[2] = maxHorizontalCount;
-    ImageProcessed[3] = horizontalTotalCount / 28;
+    ImageProcessed[3] = horizontalTotalCount / 28.0;
     ImageProcessed[4] = maxVerticalTotalCount;
-    ImageProcessed[5] = verticalTotalCount / 28;
+    ImageProcessed[5] = verticalTotalCount / 28.0;
 
 }
 
