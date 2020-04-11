@@ -53,8 +53,8 @@ void ImageObject::setIntersections(std::vector<std::vector<int>> initialImage)
         vec.resize(initialImage.size());
     }
 
+    //Converting initialImage to Output vector changing from 0 - 255 to (0 or 1)
     for(int i = 0; i < initialImage.size(); i++){
-        horizontalCount = 0;
         for(int j = 0; j < initialImage[i].size(); j++)
         {
 
@@ -66,29 +66,45 @@ void ImageObject::setIntersections(std::vector<std::vector<int>> initialImage)
             {
                 outputVector[i][j] = 0;
             }
+        }
+    }
 
-            if(i != 0)
-            {
-                if (outputVector[i][j] != outputVector[i - 1][j])
+
+    //Processing of changes between 0 and 1 Horizontal
+    for(int i = 0; i < outputVector.size(); i++){
+        verticalCount = 0;
+        for(int j = 1; j < outputVector[i].size(); j++)
+        {
+                if (outputVector[j][i] != outputVector[j - 1][i])
+                {
+                    maxVerticalTotalCount++;
+                    verticalCount++;
+                    if(maxVerticalTotalCount  < verticalCount){
+                        maxVerticalTotalCount = verticalCount;
+                    }
+                }
+        }
+    }
+
+
+    for(int i = 0; i < outputVector.size(); i++){
+        horizontalCount = 0;
+        for(int j = 1; j < outputVector[i].size(); j++)
+        {
+
+                if (outputVector[i][j] != outputVector[i][j - 1])
                 {
                     horizontalTotalCount++;
                     horizontalCount++;
-                    if(maxHorizontalCount  < horizontalCount){
+                    if (maxHorizontalCount < horizontalCount)
+                    {
                         maxHorizontalCount = horizontalCount;
                     }
                 }
-            }
-            if(j != 0){
-                if(outputVector[i][j] != outputVector[i][j-1]){
-                    verticalTotalCount++;
-                    verticalCount++;
-                    if(maxVerticalTotalCount < verticalCount){
-                        maxVerticalTotalCount = verticalCount;
-                    }
-            }
+
+
         }
         }
-    }
 
     ImageProcessed[2] = maxHorizontalCount;
     ImageProcessed[3] = horizontalTotalCount / 28.0;
