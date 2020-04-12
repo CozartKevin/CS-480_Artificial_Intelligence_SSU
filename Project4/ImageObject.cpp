@@ -22,7 +22,7 @@ void ImageObject::setDensity(std::vector<std::vector<int>> initialImage){
         }
     }
 
-    ImageProcessed[0] = total / (initialImage.size() * initialImage.size());
+    ImageProcessed[0] = (total / (initialImage.size() * initialImage.size())) /  255;
 
 }
 void ImageObject::setSymmetry(std::vector<std::vector<int>> initialImage){
@@ -35,7 +35,8 @@ void ImageObject::setSymmetry(std::vector<std::vector<int>> initialImage){
         }
     }
 
-ImageProcessed[1] = total / ((static_cast<double>(initialImage.size())/2) * initialImage.size());
+//ImageProcessed[1] = total / ((static_cast<double>(initialImage.size())/2) * initialImage.size());
+ImageProcessed[1] = (total / ((static_cast<double>(initialImage.size())/2) * initialImage.size())) / 255;
 
 }
 
@@ -46,7 +47,7 @@ void ImageObject::setIntersections(std::vector<std::vector<int>> initialImage)
     int horizontalCount = 0;
     int verticalTotalCount = 0;
     int verticalCount = 0;
-    int maxVerticalTotalCount = 0;
+    int maxVerticalCount = 0;
     std::vector<std::vector<bool>> outputVector;
     outputVector.resize(initialImage.size());
     for(auto & vec :outputVector){
@@ -77,10 +78,10 @@ void ImageObject::setIntersections(std::vector<std::vector<int>> initialImage)
         {
                 if (outputVector[j][i] != outputVector[j - 1][i])
                 {
-                    maxVerticalTotalCount++;
+                    verticalTotalCount++;
                     verticalCount++;
-                    if(maxVerticalTotalCount  < verticalCount){
-                        maxVerticalTotalCount = verticalCount;
+                    if(maxVerticalCount  < verticalCount){
+                        maxVerticalCount = verticalCount;
                     }
                 }
         }
@@ -106,10 +107,11 @@ void ImageObject::setIntersections(std::vector<std::vector<int>> initialImage)
         }
         }
 
-    ImageProcessed[2] = maxHorizontalCount;
-    ImageProcessed[3] = horizontalTotalCount / 28.0;
-    ImageProcessed[4] = maxVerticalTotalCount;
-    ImageProcessed[5] = verticalTotalCount / 28.0;
+    ImageProcessed[2] = maxHorizontalCount / 28.0;
+    ImageProcessed[3] = (horizontalTotalCount / 28.0) / 28.0;
+    ImageProcessed[4] = maxVerticalCount / 28.0 ;
+    ImageProcessed[5] = (verticalTotalCount / 28.0) / 28.0;
+    ImageProcessed[6] = 1;
 
 }
 

@@ -21,7 +21,7 @@ std::ostream& operator<<(std::ostream& out, const Image& image) {
     out << "label = " << static_cast<int>(image.label) << '\n';
     for (int row = 0; row < 28; ++row) {
         for (int col = 0; col < 28; ++col) {
-            out << ((image.at(row, col) >= 128) ? '#' : ' ');
+            out << ((image.at(row, col) >= 128) ? '#' : '-');
         }
         out << '\n';
     }
@@ -78,6 +78,8 @@ std::vector<Image> readDataSet(const std::string& labelFileName, const std::stri
     return dataSet;
 }
 
+
+
 void showDataset(const std::vector<Image>& dataSet) {
     std::cout << dataSet[0] << '\n';
    // for (auto& digit : dataSet) {
@@ -86,6 +88,14 @@ void showDataset(const std::vector<Image>& dataSet) {
 }
 std::vector<ImageObject> getImages() {
     auto dataSet = readDataSet("train-labels.idx1-ubyte", "train-images.idx3-ubyte");
+    /*
+    dataSet.erase(std::remove_if(
+            dataSet.begin(), dataSet.end(), [&](auto& digitData) {
+                return digitData.label != 7 && digitData.label != 9;
+            }),
+                  dataSet.end()
+    );
+     */
     showDataset(dataSet); // uncomment to see dataset
 
     std::vector<ImageObject> images;
@@ -115,6 +125,7 @@ void NeuralNetworkTrain(std::vector<ImageObject>trainImages, std::vector<ImageOb
 //void NeuralNetworkValidate(std::vector<ImageObject>allImages, const std::vector<perceptron> &neuralNetwork, double adjustIncrement,  int iterations);
 unsigned int NeuralNetworkTest(std::vector<ImageObject>testImages, std::vector<perceptron> &neuralNetwork, bool validation);
 //std::vector<ImageObject> getImages(std::vector<std::string> fileName);
+void initializePart1(std::vector<perceptron> & NNetwork);
 void initializePart2(std::vector<perceptron> & NNetwork);
 
 double getWeightedSum(const ImageObject &image, const perceptron &perceptron);
@@ -122,10 +133,20 @@ double getWeightedSum(const ImageObject &image, const perceptron &perceptron);
 int main()
 {
 
+    //todo export Part 1 and Part 2 to txt files
+    //todo figure out sigmoid function and its relevance to part 2.
+    //todo write import function for his txt files
+    //todo clean up your fucking messy ass code
+
+
     auto images = getImages();
     std::vector<ImageObject> trainImages(images.begin(), images.begin() + images.size() * 0.6);
     std::vector<ImageObject> validatedImages(images.begin() + images.size() * 0.6, images.begin()+ images.size() * 0.8);
     std::vector<ImageObject> testImages(images.begin() + images.size() * 0.8, images.end());
+
+    std::vector<ImageObject> trainImagesPart1(images.begin(), images.begin() + images.size() * 0.6);
+    std::vector<ImageObject> validatedImagesPart1(images.begin() + images.size() * 0.6, images.begin()+ images.size() * 0.8);
+    std::vector<ImageObject> testImagesPart1(images.begin() + images.size() * 0.8, images.end());
     ImageObject soloImage = images[0];
 
   std::cout << "Solo Image Label: " << soloImage.getImageLabel() << std::endl;
@@ -151,9 +172,30 @@ int main()
 
     float adjustIncrement = 0.1;
     int iterations = 1000;
+
+    initializePart1(neuralNetwork);
+    NeuralNetworkTrain(trainImagesPart1, validatedImagesPart1,neuralNetwork,  adjustIncrement,iterations);
+std::cout << "Part 1:" << std::endl;
+    unsigned int badCountForTest2 = NeuralNetworkTest(testImagesPart1, neuralNetwork,true);
+    double errorRateForTest2 = static_cast<double>(badCountForTest2) / testImages.size();
+    std::cout << "Weights used:" << std::endl;
+    for(int i = 0; i < 2; i++)
+    {
+        std::cout << "Label: " << neuralNetwork[i].labels << std::endl;
+        std::cout << "Weights: ";
+        for (int j = 0; j < 7; j++)
+        {
+            std::cout << neuralNetwork[i].weights[j] << " , ";
+        }
+        std::cout << std::endl << std::endl;
+    }
+    std::cout << "Error Rate for Test: " << errorRateForTest2 << std::endl;
+    std::cout << "Minimum Fraction: " << badCountForTest2 << " / " << testImages.size() << std::endl;
+
+
     //Training
     initializePart2(neuralNetwork); //todo initialize only 2 perceptrons
-   std::cout << " Before Neural Network Train" << std::endl;
+   std::cout << " Before Neural Network Train Part 2" << std::endl;
     NeuralNetworkTrain(trainImages, validatedImages,neuralNetwork, adjustIncrement, iterations);
 
     //Test
@@ -258,9 +300,37 @@ void NeuralNetworkTrain(std::vector<ImageObject> allImages, std::vector<ImageObj
         //todo display ratio between correct answers and number of epochs.
     }
 
-void initializePart2(std::vector<perceptron> & NNetwork){
+void initializePart1(std::vector<perceptron> & NNetwork){
     NNetwork.resize(10);
 
+    std::random_device rd;
+    std::mt19937 eng(rd());
+    std::uniform_int_distribution<> distr(-0.1, 0.1);
+
+
+    for (int i = 0; i < 2; i++)
+    {
+        NNetwork[i].weights.resize(7);
+        for (int j = 0; j < 7; j++)
+        {
+
+            NNetwork[i].weights[j] = distr(eng);
+
+
+        }
+        if (i == 0)
+        {
+            NNetwork[i].labels = 7;
+        }
+        else
+        {
+            NNetwork[i].labels = 9;
+
+        }
+    }
+
+}void initializePart2(std::vector<perceptron> & NNetwork){
+    NNetwork.resize(10);
 
     std::random_device rd;
     std::mt19937 eng(rd());
@@ -271,6 +341,7 @@ void initializePart2(std::vector<perceptron> & NNetwork){
        NNetwork[i].weights.resize(7);
     for(int j = 0; j < 7; j++)
     {
+
         NNetwork[i].weights[j] = distr(eng);
     }
        NNetwork[i].labels = i;

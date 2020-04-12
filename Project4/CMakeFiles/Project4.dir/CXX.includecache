@@ -6,13 +6,29 @@
 
 #IncludeRegexTransform: 
 
-G:/SSU Courses/CS480/CS480/Project4/ImageObject.cpp
-ImageObject.hpp
-G:/SSU Courses/CS480/CS480/Project4/ImageObject.hpp
-iostream
--
-
 G:/SSU Courses/CS480/CS480/Project4/ImageObject.hpp
 vector
 -
+
+G:/SSU Courses/CS480/CS480/Project4/main.cpp
+iostream
+-
+vector
+-
+cstddef
+-
+random
+-
+fstream
+-
+limits
+-
+string
+-
+array
+-
+algorithm
+-
+ImageObject.hpp
+G:/SSU Courses/CS480/CS480/Project4/ImageObject.hpp
 
