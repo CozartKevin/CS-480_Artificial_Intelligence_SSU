@@ -7,6 +7,8 @@
 #include <string>
 #include <array>
 #include <algorithm>
+#include <locale>
+#include <codecvt>
 #include "ImageObject.hpp"
 struct Image {
     std::array<uint8_t, 28*28> data;
@@ -86,16 +88,18 @@ void showDataset(const std::vector<Image>& dataSet) {
      //   std::cout << digit << '\n';
   //  }
 }
+
+
 std::vector<ImageObject> getImages() {
     auto dataSet = readDataSet("train-labels.idx1-ubyte", "train-images.idx3-ubyte");
-    /*
+/*
     dataSet.erase(std::remove_if(
             dataSet.begin(), dataSet.end(), [&](auto& digitData) {
                 return digitData.label != 7 && digitData.label != 9;
             }),
                   dataSet.end()
     );
-     */
+*/
     showDataset(dataSet); // uncomment to see dataset
 
     std::vector<ImageObject> images;
@@ -122,13 +126,14 @@ struct perceptron {
 };
 
 void NeuralNetworkTrain(std::vector<ImageObject>trainImages, std::vector<ImageObject> validatedImages, std::vector<perceptron> &neuralNetwork, double adjustIncrement,  int iterations);
-//void NeuralNetworkValidate(std::vector<ImageObject>allImages, const std::vector<perceptron> &neuralNetwork, double adjustIncrement,  int iterations);
-unsigned int NeuralNetworkTest(std::vector<ImageObject>testImages, std::vector<perceptron> &neuralNetwork, bool validation);
-//std::vector<ImageObject> getImages(std::vector<std::string> fileName);
+unsigned int Validation(std::vector<ImageObject>validationImages, std::vector<perceptron> &neuralNetwork, bool debugOutput);
+void NeuralNetworkTest(std::vector<ImageObject>testImages, std::vector<perceptron> &neuralNetwork);
+
 void initializePart1(std::vector<perceptron> & NNetwork);
 void initializePart2(std::vector<perceptron> & NNetwork);
 
 double getWeightedSum(const ImageObject &image, const perceptron &perceptron);
+std::vector<ImageObject> getImages(std::vector<std::string> s, bool isLabels);
 
 int main()
 {
@@ -138,114 +143,94 @@ int main()
     //todo write import function for his txt files
     //todo clean up your fucking messy ass code
 
-
-    auto images = getImages();
-    std::vector<ImageObject> trainImages(images.begin(), images.begin() + images.size() * 0.6);
-    std::vector<ImageObject> validatedImages(images.begin() + images.size() * 0.6, images.begin()+ images.size() * 0.8);
-    std::vector<ImageObject> testImages(images.begin() + images.size() * 0.8, images.end());
-
-    std::vector<ImageObject> trainImagesPart1(images.begin(), images.begin() + images.size() * 0.6);
-    std::vector<ImageObject> validatedImagesPart1(images.begin() + images.size() * 0.6, images.begin()+ images.size() * 0.8);
-    std::vector<ImageObject> testImagesPart1(images.begin() + images.size() * 0.8, images.end());
-    ImageObject soloImage = images[0];
-
+   std::vector<std::string> testFilename = {"test1.csv"};
+   auto test = getImages(testFilename, false);
+  // std::cout << test.size() << std::endl;
+   // ImageObject soloImage = test[0];
+/*
   std::cout << "Solo Image Label: " << soloImage.getImageLabel() << std::endl;
   std::cout << "Image Vector: " << std::endl;
   for(int i = 0; i < 7; i++){
       std::cout << " Feature: " << i << " Feature Value: " << soloImage.getImageVector(i) << " " << std::endl;
   }
 
-
-
-    std::vector<std::string> Part1TrainFiles = {"train7.txt","train9.txt"};
-    std::vector<std::string> Part1ValidateFiles = {"valid7.txt","valid9.txt"};
-    std::vector<std::string> Part1TestFiles = {"test7.txt","test9.txt"};
-    std::vector<std::string> Part2TrainFiles = {"train0.txt","train1.txt","train2.txt","train3.txt","train4.txt","train5.txt","train6.txt","train7.txt","train8.txt","train9.txt"};
-    std::vector<std::string> Part2TestFiles = {"test0.txt","test1.txt","test2.txt","test3.txt","test4.txt","test5.txt","test6.txt","test7.txt","test8.txt","test9.txt"};
-  //  std::vector<ImageObject> trainImages;
-  //  std::vector<ImageObject> validatedImages;
-   // std::vector<ImageObject> testImages;
+*/
+    std::vector<std::string> Part1TrainFiles = {"train7.csv", "train9.csv"};
+    std::vector<std::string> Part1ValidateFiles = {"valid7.csv", "valid9.csv"};
+    //std::vector<std::string> Part1TestFiles = {"test7.csv","test9.csv"};
+    std::vector<std::string> Part2TrainFiles = {"train0.csv", "train1.csv", "train2.csv", "train3.csv", "train4.csv",
+                                                "train5.csv", "train6.csv", "train7.csv", "train8.csv", "train9.csv"};
+    std::vector<std::string> Part2ValidateFiles = {"valid0.csv", "valid1.csv", "valid2.csv", "valid3.csv", "valid4.csv",
+                                                   "valid5.csv", "valid6.csv", "valid7.csv", "valid8.csv",
+                                                   "valid9.csv"};
+    //  std::vector<ImageObject> trainImages;
+    //  std::vector<ImageObject> validatedImages;
+    // std::vector<ImageObject> testImages;
     std::vector<perceptron> neuralNetwork;
-
-   // trainImages = getImages(Part1TrainFiles);
-  //  validatedImages = getImages(Part1ValidateFiles);
-
     float adjustIncrement = 0.1;
     int iterations = 1000;
-
-    initializePart1(neuralNetwork);
-    NeuralNetworkTrain(trainImagesPart1, validatedImagesPart1,neuralNetwork,  adjustIncrement,iterations);
-std::cout << "Part 1:" << std::endl;
-    unsigned int badCountForTest2 = NeuralNetworkTest(testImagesPart1, neuralNetwork,true);
-    double errorRateForTest2 = static_cast<double>(badCountForTest2) / testImages.size();
-    std::cout << "Weights used:" << std::endl;
-    for(int i = 0; i < 2; i++)
+    int x = 0;
+    for (int i = 0; i < 2; i++)
     {
-        std::cout << "Label: " << neuralNetwork[i].labels << std::endl;
-        std::cout << "Weights: ";
-        for (int j = 0; j < 7; j++)
+        auto train = (i == 0) ? getImages(Part1TrainFiles, true) : getImages(Part2TrainFiles, true);
+        auto validate = (i == 0) ? getImages(Part1ValidateFiles, true) : getImages(Part2ValidateFiles, true);
+
+
+        if (i == 0)
         {
-            std::cout << neuralNetwork[i].weights[j] << " , ";
+            initializePart1(neuralNetwork);
         }
-        std::cout << std::endl << std::endl;
-    }
-    std::cout << "Error Rate for Test: " << errorRateForTest2 << std::endl;
-    std::cout << "Minimum Fraction: " << badCountForTest2 << " / " << testImages.size() << std::endl;
-
-
-    //Training
-    initializePart2(neuralNetwork); //todo initialize only 2 perceptrons
-   std::cout << " Before Neural Network Train Part 2" << std::endl;
-    NeuralNetworkTrain(trainImages, validatedImages,neuralNetwork, adjustIncrement, iterations);
-
-    //Test
-  //  testImages = getImages(Part1TestFiles);
-    unsigned int badCountForTest = NeuralNetworkTest(testImages, neuralNetwork,true);
-    double errorRateForTest = static_cast<double>(badCountForTest) / testImages.size();
-    std::cout << "Weights used:" << std::endl;
-    for(int i = 0; i < 10; i++)
-    {
-        std::cout << "Label: " << neuralNetwork[i].labels << std::endl;
-        std::cout << "Weights: ";
-        for (int j = 0; j < 7; j++)
+        else
         {
-            std::cout << neuralNetwork[i].weights[j] << " , ";
+            initializePart2(neuralNetwork);
         }
-        std::cout << std::endl << std::endl;
+
+        NeuralNetworkTrain(train, validate, neuralNetwork, adjustIncrement, iterations);
+
+        std::cout << "Part " << (i + 1) << ": " << std::endl;
+
+        unsigned int badCountForPart1 = Validation(validate, neuralNetwork, false);
+
+        double errorRateForPart1 = static_cast<double>(badCountForPart1) / validate.size();
+
+        std::cout << "Weights used:" << std::endl;
+        std::cout << std::endl;
+        if(i == 0){
+            x = 2;
+        }else{
+            x = 10;
+        }
+        for (int i = 0; i < x; i++)
+        {
+            std::cout << "Label: " << neuralNetwork[i].labels << std::endl;
+            std::cout << "Weights: ";
+            for (int j = 0; j < 7; j++)
+            {
+                std::cout << neuralNetwork[i].weights[j] << " , ";
+            }
+            std::cout << std::endl << std::endl;
+        }
+        std::cout << "Error Rate for Test: " << errorRateForPart1 << std::endl;
+
+        std::cout << "Minimum Fraction: " << badCountForPart1 << " / " << validate.size() << std::endl;
+        std::cout << std::endl;
+        NeuralNetworkTest(test, neuralNetwork);
+
     }
-    std::cout << "Error Rate for Test: " << errorRateForTest << std::endl;
-    std::cout << "Minimum Fraction: " << badCountForTest << " / " << testImages.size() << std::endl;
 
-
-
-    //Part 1
-        //Pull data from train7 & train9
-
-    //TODO Part 1 and Part 2 do this loop, but for different files(Main Function to call initialize, train and test only Returns Least Validation Error, Output Minimum error fraction (between 0 - 1)
-   //TODO Write initialization function based on size of input
-        //initializes weights for as many training points we have in file(number of inputs in the file: Might not have that data, might need to loop through file to find this)
-        //
-
-   //TODO Write update Weight function
-   //TODO Write Train function for training data
-        //Uses Perceptron
-        //Output each loop the degree of accuracy per epoch(iteration)
-        //Return the new weights
-   //TODO Write Test function for training data
-        //Output % correct based on size of domain
-        //
 }
 
 void NeuralNetworkTrain(std::vector<ImageObject> allImages, std::vector<ImageObject> validatedImages, std::vector<perceptron> &neuralNetwork , double adjustIncrement,  int iterations)
 {
    // std::vector<ImageObject> newAllImages(allImages.begin(), allImages.begin() + 1000);
-  //  std::mt19937 g(1234);
+ std::mt19937 g(1234);
+
   double lowestError = 1;
   std::vector<perceptron> lowestErrorWeights;
     for(int i = 0; i < iterations; i++){
         int goodCount = 0;
+        std::shuffle( allImages.begin(),allImages.end(),g);
 
-          // std::shuffle( allImages.begin(),allImages.end(),g);
             for(auto & image : allImages){
 
                     for(auto & perceptron : neuralNetwork){
@@ -287,36 +272,98 @@ void NeuralNetworkTrain(std::vector<ImageObject> allImages, std::vector<ImageObj
           //  std::cout << "Error for Epoch " << i << " is: " << badCount / (allImages.size()*neuralNetwork.size()) << std::endl;
 
         //todo Run Validation set for error saving Perceptron with lowest error rate
-        double errorRate = static_cast<double>(NeuralNetworkTest(validatedImages, neuralNetwork, true)) / validatedImages.size();
+
+
+        double errorRate = static_cast<double>(Validation(validatedImages, neuralNetwork, false)) / validatedImages.size();
+
+        //todo use Sigmoid function to make a better guess for which perceptron should be used.
+        //todo instead of using errorRate < lowestError
+        // todo use LL = sigmoid of maxSum < sigmoid of weightedSum
+        // todo lowestLL < LL then choose LL  Return NN of LowestLL
+
 
         if(errorRate < lowestError){
-          //  std::cout << "ErrorRate: " << errorRate << std::endl;
             lowestError = errorRate;
             lowestErrorWeights = neuralNetwork;
         }
+
         }
 
         neuralNetwork = lowestErrorWeights;
         //todo display ratio between correct answers and number of epochs.
     }
 
+
+
+unsigned int Validation(std::vector<ImageObject>validationImages, std::vector<perceptron> &neuralNetwork, bool debugOutput)
+{
+    int goodCount = 0;
+
+    for (auto &image : validationImages)
+    {
+        double maxSum = -std::numeric_limits<double>::infinity();
+        int guess = -1;
+        for (auto &perceptron : neuralNetwork)
+        {
+
+            double weightedSum = getWeightedSum(image, perceptron);
+
+
+
+            if(maxSum < weightedSum){
+                maxSum = weightedSum;
+                guess = perceptron.labels;
+
+            }
+
+        }
+        if(debugOutput)
+        {
+            std::cout << " Image Label: " << image.getImageLabel() << " Guess label" << guess << std::endl;
+            std::cout << " Image VS Guess " << (image.getImageLabel() == guess) << std::endl;
+        }
+        goodCount += image.getImageLabel() == guess;
+
+    }
+
+    return validationImages.size() - goodCount;
+}
+
+
+void NeuralNetworkTest(std::vector<ImageObject> testImages, std::vector<perceptron> &neuralNetwork)
+{
+
+    for (auto &image : testImages)
+    {
+        double maxSum = -std::numeric_limits<double>::infinity();
+        int guess = -1;
+        for (auto &perceptron : neuralNetwork)
+        {
+            double weightedSum = getWeightedSum(image, perceptron);
+
+            if (maxSum < weightedSum)
+            {
+                maxSum = weightedSum;
+                guess = perceptron.labels;
+            }
+        }
+        std::cout << guess << " ";
+    }
+}
+
+
+
 void initializePart1(std::vector<perceptron> & NNetwork){
     NNetwork.resize(10);
-
-    std::random_device rd;
-    std::mt19937 eng(rd());
-    std::uniform_int_distribution<> distr(-0.1, 0.1);
-
+    std::mt19937 eng(1234);
+    std::uniform_real_distribution<double> distr(-0.1, 0.1);
 
     for (int i = 0; i < 2; i++)
     {
         NNetwork[i].weights.resize(7);
         for (int j = 0; j < 7; j++)
         {
-
             NNetwork[i].weights[j] = distr(eng);
-
-
         }
         if (i == 0)
         {
@@ -325,35 +372,30 @@ void initializePart1(std::vector<perceptron> & NNetwork){
         else
         {
             NNetwork[i].labels = 9;
-
         }
     }
+}
 
-}void initializePart2(std::vector<perceptron> & NNetwork){
+void initializePart2(std::vector<perceptron> &NNetwork){
     NNetwork.resize(10);
+    std::mt19937 eng(1234);
+    std::uniform_real_distribution<double> distr(-0.1, 0.1);
 
-    std::random_device rd;
-    std::mt19937 eng(rd());
-    std::uniform_int_distribution<> distr(-0.1, 0.1);
-
-
-   for(int i = 0; i < 10; i++){
-       NNetwork[i].weights.resize(7);
-    for(int j = 0; j < 7; j++)
+    for (int i = 0; i < 10; i++)
     {
-
-        NNetwork[i].weights[j] = distr(eng);
+        NNetwork[i].weights.resize(7);
+        for (int j = 0; j < 7; j++)
+        {
+            NNetwork[i].weights[j] = distr(eng);
+        }
+        NNetwork[i].labels = i;
     }
-       NNetwork[i].labels = i;
-   }
-
 }
 
 
 double getWeightedSum(const ImageObject &image, const perceptron &perceptron)
 {
     double weightedSum = 0;
-
     for(int k = 0; k < perceptron.weights.size(); k++)
     {
         weightedSum = weightedSum +  image.getImageVector(k) * perceptron.weights[k];
@@ -362,57 +404,53 @@ double getWeightedSum(const ImageObject &image, const perceptron &perceptron)
 }
 
 
-
-
-
-
-
-
-
-unsigned int NeuralNetworkTest(std::vector<ImageObject>allImages, std::vector<perceptron> &neuralNetwork, bool validation)
+std::vector<ImageObject> getImages(std::vector<std::string> s, bool isLabels)
 {
-        int goodCount = 0;
-
-        for (auto &image : allImages)
-        {
-            double maxSum = -std::numeric_limits<double>::infinity();
-            int guess = -1;
-            for (auto &perceptron : neuralNetwork)
-            {
-
-                double weightedSum = getWeightedSum(image, perceptron);
-
-                if(maxSum < weightedSum){
-                    maxSum = weightedSum;
-                    guess = perceptron.labels;
-
-                }
-
-            }
-            if(!validation)
-            {
-                std::cout << " Image Label: " << image.getImageLabel() << " Guess label" << guess << std::endl;
-                std::cout << " Image VS Guess " << (image.getImageLabel() == guess) << std::endl;
-            }
-           goodCount += image.getImageLabel() == guess;
-
-        }
-     //   std::cout << "Good Count " << goodCount << std::endl;
-      //  std::cout << allImages.size() << " Total Size" << std::endl;
-        return allImages.size() - goodCount;
+    int label;
+    std::vector<std::vector<int>> vectorFromFiles(28);
+    for (auto &row : vectorFromFiles)
+    {
+        row.resize(28);
     }
 
+    std::vector<ImageObject> images;
+    std::wifstream inputStream;
+    inputStream.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
+    for (int i = 0; i < s.size(); i++)
+    {
+        inputStream.open(s[i], std::ios::in);    // open for reading
+        if (!inputStream.is_open())
+        {
+            std::cout << "Unable to open " << s[i] << ". Terminating...";
+            exit(2);
+        }
 
+        int x;
+        while (inputStream && !inputStream.eof())
+        {
+            if (isLabels)
+            {
+                inputStream >> x;
+                label = x;
+            }
+            for (int j = 0; j < 28; j++)
+            {
+                for (int k = 0; k < 28; k++)
+                {
+                    if (isLabels || (k != 0 || j != 0))
+                    {
+                        inputStream.ignore(1);
+                    }
 
+                    inputStream >> x;
+                    vectorFromFiles[j][k] = x;
 
+                }
+            }
+            images.emplace_back(label, vectorFromFiles);
+        }
+        inputStream.close();
+    }
 
-/*
-std::vector<ImageObject> getImages(std::string fileName)
-{
-
-    //ToDO create open files, and input values into an std::vector<std::vector<int>>
-    //Todo close file
-
+    return images;
 }
-
-*/
