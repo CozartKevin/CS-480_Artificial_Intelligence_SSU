@@ -125,8 +125,9 @@ struct perceptron {
     int labels;
 };
 
-void NeuralNetworkTrain(std::vector<ImageObject>trainImages, std::vector<ImageObject> validatedImages, std::vector<perceptron> &neuralNetwork, double adjustIncrement,  int iterations);
-unsigned int Validation(std::vector<ImageObject>validationImages, std::vector<perceptron> &neuralNetwork, bool debugOutput);
+void NeuralNetworkTrain(std::vector<ImageObject>trainImages, std::vector<ImageObject> validatedImages, std::vector<perceptron> &neuralNetwork, double adjustIncrement,  int iterations,double (*validation)(std::vector<ImageObject>validationImages, std::vector<perceptron> &neuralNetwork, bool debugOutput));
+double validationPart1(std::vector<ImageObject>validationImages, std::vector<perceptron> &neuralNetwork, bool debugOutput);
+double validationPart2(std::vector<ImageObject>validationImages, std::vector<perceptron> &neuralNetwork, bool debugOutput);
 void NeuralNetworkTest(std::vector<ImageObject>testImages, std::vector<perceptron> &neuralNetwork);
 
 void initializePart1(std::vector<perceptron> & NNetwork);
@@ -134,6 +135,8 @@ void initializePart2(std::vector<perceptron> & NNetwork);
 
 double getWeightedSum(const ImageObject &image, const perceptron &perceptron);
 std::vector<ImageObject> getImages(std::vector<std::string> s, bool isLabels);
+
+double Sigmoid(double weightedSum);
 
 int main()
 {
@@ -179,19 +182,22 @@ int main()
         if (i == 0)
         {
             initializePart1(neuralNetwork);
+            NeuralNetworkTrain(train, validate, neuralNetwork, adjustIncrement, iterations, validationPart1);
         }
         else
         {
             initializePart2(neuralNetwork);
+            NeuralNetworkTrain(train, validate, neuralNetwork, adjustIncrement, iterations, validationPart2);
         }
 
-        NeuralNetworkTrain(train, validate, neuralNetwork, adjustIncrement, iterations);
+    //    NeuralNetworkTrain(train, validate, neuralNetwork, adjustIncrement, iterations, validationPart1);
 
         std::cout << "Part " << (i + 1) << ": " << std::endl;
 
-        unsigned int badCountForPart1 = Validation(validate, neuralNetwork, false);
+       // unsigned int badCountForPart1 = Validation(validate, neuralNetwork, false);
 
-        double errorRateForPart1 = static_cast<double>(badCountForPart1) / validate.size();
+       // double errorRateForPart1 = static_cast<double>(badCountForPart1) / validate.size();
+        double errorRateUsingPart1 = validationPart1(validate, neuralNetwork, false);
 
         std::cout << "Weights used:" << std::endl;
         std::cout << std::endl;
@@ -210,9 +216,9 @@ int main()
             }
             std::cout << std::endl << std::endl;
         }
-        std::cout << "Error Rate for Test: " << errorRateForPart1 << std::endl;
+        std::cout << "Error Rate for Test: " << errorRateUsingPart1 << std::endl;
 
-        std::cout << "Minimum Fraction: " << badCountForPart1 << " / " << validate.size() << std::endl;
+        std::cout << "Minimum Fraction: " << (errorRateUsingPart1 * validate.size()) << " / " << validate.size() << std::endl;
         std::cout << std::endl;
         NeuralNetworkTest(test, neuralNetwork);
 
@@ -220,7 +226,7 @@ int main()
 
 }
 
-void NeuralNetworkTrain(std::vector<ImageObject> allImages, std::vector<ImageObject> validatedImages, std::vector<perceptron> &neuralNetwork , double adjustIncrement,  int iterations)
+void NeuralNetworkTrain(std::vector<ImageObject> allImages, std::vector<ImageObject> validatedImages, std::vector<perceptron> &neuralNetwork , double adjustIncrement,  int iterations, double (*validation)(std::vector<ImageObject>validationImages, std::vector<perceptron> &neuralNetwork, bool debugOutput))
 {
    // std::vector<ImageObject> newAllImages(allImages.begin(), allImages.begin() + 1000);
  std::mt19937 g(1234);
@@ -245,6 +251,9 @@ void NeuralNetworkTrain(std::vector<ImageObject> allImages, std::vector<ImageObj
                             //todo adjust weights down
                             for(int j = 0; j < perceptron.weights.size(); j++)
                             {
+                                //if part 2
+                                //use log (1 - fx) when percetron label == feature label
+
                                 perceptron.weights[j] += adjustIncrement * image.getImageVector(j);
                                //weight += adjustIncrement;
                             }
@@ -274,7 +283,9 @@ void NeuralNetworkTrain(std::vector<ImageObject> allImages, std::vector<ImageObj
         //todo Run Validation set for error saving Perceptron with lowest error rate
 
 
-        double errorRate = static_cast<double>(Validation(validatedImages, neuralNetwork, false)) / validatedImages.size();
+       // double errorRate = static_cast<double>(Validation(validatedImages, neuralNetwork, false)) / validatedImages.size();
+
+            double errorRate = validation(validatedImages, neuralNetwork, false);
 
         //todo use Sigmoid function to make a better guess for which perceptron should be used.
         //todo instead of using errorRate < lowestError
@@ -295,7 +306,7 @@ void NeuralNetworkTrain(std::vector<ImageObject> allImages, std::vector<ImageObj
 
 
 
-unsigned int Validation(std::vector<ImageObject>validationImages, std::vector<perceptron> &neuralNetwork, bool debugOutput)
+double validationPart1(std::vector<ImageObject>validationImages, std::vector<perceptron> &neuralNetwork, bool debugOutput)
 {
     int goodCount = 0;
 
@@ -307,7 +318,6 @@ unsigned int Validation(std::vector<ImageObject>validationImages, std::vector<pe
         {
 
             double weightedSum = getWeightedSum(image, perceptron);
-
 
 
             if(maxSum < weightedSum){
@@ -326,9 +336,43 @@ unsigned int Validation(std::vector<ImageObject>validationImages, std::vector<pe
 
     }
 
-    return validationImages.size() - goodCount;
+
+    return static_cast<double>(validationImages.size() - goodCount)/validationImages.size();
 }
 
+double validationPart2(std::vector<ImageObject>validationImages, std::vector<perceptron> &neuralNetwork, bool debugOutput)
+{
+
+    double sigmoidValue = 0;
+    double totalError = 0;
+    for (auto &image : validationImages)
+    {
+        int guess = -1;
+        for (auto &perceptron : neuralNetwork)
+        {
+            sigmoidValue = Sigmoid(getWeightedSum(image, perceptron));
+
+            if(image.getImageLabel() == perceptron.labels){
+                totalError +=  log(1- sigmoidValue);
+            }else{
+                totalError += log(sigmoidValue);
+            }
+        }
+        if(debugOutput)
+        {
+            std::cout << " Image Label: " << image.getImageLabel() << " Guess label" << guess << std::endl;
+            std::cout << " Image VS Guess " << (image.getImageLabel() == guess) << std::endl;
+        }
+
+    }
+
+    return totalError;
+}
+
+double Sigmoid(double weightedSum)
+{
+    return 1 / (1 + exp(-weightedSum));
+}
 
 void NeuralNetworkTest(std::vector<ImageObject> testImages, std::vector<perceptron> &neuralNetwork)
 {
