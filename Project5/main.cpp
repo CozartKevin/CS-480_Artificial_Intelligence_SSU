@@ -10,6 +10,8 @@
 #include <locale>
 #include <codecvt>
 #include "ImageObject.hpp"
+
+
 struct Image {
     std::array<uint8_t, 28*28> data;
     uint8_t label;
@@ -125,6 +127,9 @@ struct perceptron {
     int labels;
 };
 
+
+
+
 void NeuralNetworkTrain(std::vector<ImageObject>trainImages, std::vector<ImageObject> validatedImages, std::vector<perceptron> &neuralNetwork, double adjustIncrement,  int iterations,double (*validation)(std::vector<ImageObject>validationImages, std::vector<perceptron> &neuralNetwork, bool debugOutput));
 double validationPart1(std::vector<ImageObject>validationImages, std::vector<perceptron> &neuralNetwork, bool debugOutput);
 double validationPart2(std::vector<ImageObject>validationImages, std::vector<perceptron> &neuralNetwork, bool debugOutput);
@@ -135,7 +140,7 @@ void initializePart2(std::vector<perceptron> & NNetwork);
 
 double getWeightedSum(const ImageObject &image, const perceptron &perceptron);
 std::vector<ImageObject> getImages(std::vector<std::string> s, bool isLabels);
-
+std::vector<std::vector<std::vector<double>>> getFilter(std::string s);
 double Sigmoid(double weightedSum);
 
 
@@ -160,6 +165,9 @@ int main()
   }
 
 */
+std::vector<std::vector<std::vector<double>>> test3DVector;
+    test3DVector = getFilter("filters.txt");
+    std::cin.get();
     std::vector<std::string> Part1TrainFiles = {"train7.csv", "train9.csv"};
     std::vector<std::string> Part1ValidateFiles = {"valid7.csv", "valid9.csv"};
     //std::vector<std::string> Part1TestFiles = {"test7.csv","test9.csv"};
@@ -462,6 +470,7 @@ std::vector<ImageObject> getImages(std::vector<std::string> s, bool isLabels)
     std::vector<ImageObject> images;
     std::wifstream inputStream;
     inputStream.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
+
     for (int i = 0; i < s.size(); i++)
     {
         inputStream.open(s[i], std::ios::in);    // open for reading
@@ -500,4 +509,75 @@ std::vector<ImageObject> getImages(std::vector<std::string> s, bool isLabels)
 
     return images;
 }
+
+std::vector<std::vector<std::vector<double>>> getFilter(std::string s)
+{
+
+    std::vector<std::vector<std::vector<double>>> vectorFilter(20, std::vector<std::vector<double>>(9, std::vector<double>(9)));
+
+    std::wifstream inputStream;
+    inputStream.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
+
+            inputStream.open(s, std::ios::in);    // open for reading
+            if (!inputStream.is_open())
+            {
+                std::cout << "Unable to open " << s << ". Terminating...";
+                exit(2);
+            }
+                double x = 0;
+
+        while (inputStream && !inputStream.eof())
+        {
+
+            for (int i = 0; i < 9; i++) //rows
+            {
+                for (int k = 0; k < 9; k++) //column
+                {
+                    for (int j = 0; j < 20; j++) // matrices
+                    {
+
+                        inputStream >> x;
+
+                            if(inputStream.fail()){
+                                inputStream.clear();
+                                inputStream.ignore( 11,'\r\n');
+                                inputStream >> x;
+                                if(inputStream.eof()){
+                                    break;
+                                }
+
+                            }
+
+                            vectorFilter[j][i][k] = x;
+                           // std::cout << vectorFilter[j][i][k] << " == " << x << std::endl;
+                    }
+                    }
+                }
+            }
+
+         inputStream.close();
+
+    for (int j = 0; j < 20; j++) // matrices
+    {
+        for(int i = 0; i < 9; i++) //rows
+        {
+
+            for (int k = 0; k < 9; k++) //column
+            {
+                    std::cout << vectorFilter[j][i][k] << ' ';
+
+
+            }
+            std::cout << std::endl;
+        }
+        std::cin.get();
+    }
+
+
+    return vectorFilter;
+
+}
+
+
+
 
