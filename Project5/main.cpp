@@ -142,8 +142,11 @@ double getWeightedSum(const ImageObject &image, const perceptron &perceptron);
 std::vector<ImageObject> getImages(std::vector<std::string> s, bool isLabels);
 std::vector<std::vector<std::vector<double>>> getFilter(std::string s);
 double Sigmoid(double weightedSum);
-
-
+std::vector<std::vector<std::vector<int>>> getImageNonObject(std::vector<std::string> s, std::vector<int> & labels, bool isLabels);
+std::vector<std::vector<std::vector<double>>> getFilter(std::string s);
+std::vector<std::vector<std::vector<double>>> convolution(std::vector<std::vector<std::vector<double>>> filters/*filters that will be applied */, std::vector<std::vector<int>> image /*image 28x28*/);
+std::vector<std::vector<double>> CNNTrain(std::vector<std::vector<std::vector<int>>> imageVectors, std::vector<int> labels, std::vector<std::vector<std::vector<double>>> filters, std::vector<std::vector<double>> & hiddenLayerNeurons, std::vector<std::vector<double>> & outputLayerNeurons);
+std::vector<std::vector<std::vector<double>>> ReLu(std::vector<std::vector<std::vector<double>>> const x);
 
 int main()
 {
@@ -165,17 +168,35 @@ int main()
   }
 
 */
-std::vector<std::vector<std::vector<double>>> test3DVector;
-    test3DVector = getFilter("filters.txt");
-    std::cin.get();
-    std::vector<std::string> Part1TrainFiles = {"train7.csv", "train9.csv"};
-    std::vector<std::string> Part1ValidateFiles = {"valid7.csv", "valid9.csv"};
-    //std::vector<std::string> Part1TestFiles = {"test7.csv","test9.csv"};
+
     std::vector<std::string> Part2TrainFiles = {"train0.csv", "train1.csv", "train2.csv", "train3.csv", "train4.csv",
                                                 "train5.csv", "train6.csv", "train7.csv", "train8.csv", "train9.csv"};
     std::vector<std::string> Part2ValidateFiles = {"valid0.csv", "valid1.csv", "valid2.csv", "valid3.csv", "valid4.csv",
                                                    "valid5.csv", "valid6.csv", "valid7.csv", "valid8.csv",
                                                    "valid9.csv"};
+
+
+
+    std::vector<int> labels(10000);
+    std::vector<std::vector<std::vector<double>>> filtersVector;
+    filtersVector = getFilter("filters.txt");
+    std::vector<std::vector<std::vector<int>>> imageVector;
+    imageVector = getImageNonObject(Part2TrainFiles, labels, false);
+
+    std::vector<std::vector<double>> hiddenLayerNeurons(2000,std::vector<double>(100));
+    std::vector<std::vector<double>> outputLayerNeurons(100,std::vector<double>(10));
+
+    CNNTrain(imageVector, labels, filtersVector, hiddenLayerNeurons, outputLayerNeurons);
+
+
+    std::cin.get();
+
+
+
+    std::vector<std::string> Part1TrainFiles = {"train7.csv", "train9.csv"};
+    std::vector<std::string> Part1ValidateFiles = {"valid7.csv", "valid9.csv"};
+    //std::vector<std::string> Part1TestFiles = {"test7.csv","test9.csv"};
+
     //  std::vector<ImageObject> trainImages;
     //  std::vector<ImageObject> validatedImages;
     // std::vector<ImageObject> testImages;
@@ -556,7 +577,7 @@ std::vector<std::vector<std::vector<double>>> getFilter(std::string s)
             }
 
          inputStream.close();
-
+/*
     for (int j = 0; j < 20; j++) // matrices
     {
         for(int i = 0; i < 9; i++) //rows
@@ -570,9 +591,9 @@ std::vector<std::vector<std::vector<double>>> getFilter(std::string s)
             }
             std::cout << std::endl;
         }
-        std::cin.get();
-    }
 
+    }
+*/
 
     return vectorFilter;
 
@@ -581,3 +602,182 @@ std::vector<std::vector<std::vector<double>>> getFilter(std::string s)
 
 
 
+std::vector<std::vector<std::vector<double>>> convolution(std::vector<std::vector<std::vector<double>>> filters/*filters that will be applied */, std::vector<std::vector<int>> image /*image 28x28*/)
+{
+    std::vector<std::vector<std::vector<double>>> convolutionMatrix;
+    //will apply the filters using dot product to sub section 9x9 of the image
+    for(int filter = 0; filter<20; filter++)
+    {
+        for(int shiftdown = 0; shiftdown<20 ; shiftdown++)
+        {
+            for (int shiftright = 0; shiftright < 20; ++shiftright) {
+                for (int subimage = 0; subimage < 9; ++subimage) {
+                    for (int kthfilter = 0; kthfilter < 9; ++kthfilter) {
+                        float product = product + filters[filter][subimage][kthfilter]*image[shiftdown+subimage][shiftright+kthfilter];
+                        convolutionMatrix[filter][shiftdown][shiftright];
+                    }
+
+                }
+            }
+
+        }
+    }
+
+
+    //the result should be a 20x20x20 matrix
+
+}
+
+std::vector<std::vector<std::vector<int>>> getImageNonObject(std::vector<std::string> s,  std::vector<int> & labels, bool isLabels)
+{
+    int label;
+    std::vector<std::vector<int>> vectorFromFiles(28);
+    for (auto &row : vectorFromFiles)
+    {
+        row.resize(28);
+    }
+
+    std::wifstream inputStream;
+    inputStream.imbue(std::locale(std::locale::empty(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
+
+    std::vector<std::vector<std::vector<int>>> images;
+
+    for (int i = 0; i < s.size(); i++)
+    {
+        inputStream.open(s[i], std::ios::in);    // open for reading
+        if (!inputStream.is_open())
+        {
+            std::cout << "Unable to open " << s[i] << ". Terminating...";
+            exit(2);
+        }
+
+        int x;
+        while (inputStream && !inputStream.eof())
+        {
+            if (isLabels)
+            {
+                inputStream >> x;
+                labels.push_back(x);
+            }
+            for (int j = 0; j < 28; j++)
+            {
+                for (int k = 0; k < 28; k++)
+                {
+                    if (isLabels || (k != 0 || j != 0))
+                    {
+                        inputStream.ignore(1);
+                    }
+
+                    inputStream >> x;
+                    vectorFromFiles[j][k] = x;
+
+
+                }
+            }
+            images.emplace_back(vectorFromFiles);
+        }
+        inputStream.close();
+
+    }
+    return images;
+}
+
+
+
+
+std::vector<std::vector<double>> CNNTrain(std::vector<std::vector<std::vector<int>>> imageVectors, std::vector<int> labels, std::vector<std::vector<std::vector<double>>> filters, std::vector<std::vector<double>> hiddenLayerNeurons, std::vector<std::vector<double>> outputLayerNeurons)
+{
+    int n = labels.size();
+    double alpha = 0.01;
+    int bsize = 100;
+    std::vector<std::vector<std::vector<std::vector<int>>>> batch(100, std::vector<std::vector<std::vector<int>>>(100,std::vector<std::vector<int>>(28,std::vector<int>(28))));
+
+    std::vector<std::vector<int>> blist(1000, std::vector<int>(100));
+    std::vector<std::vector<std::vector<double>>> y1(20, std::vector<std::vector<double>>(20, std::vector<double>(20)));
+    std::vector<std::vector<std::vector<double>>> y2(20, std::vector<std::vector<double>>(20, std::vector<double>(20)));
+    std::vector<std::vector<std::vector<double>>> y3(10, std::vector<std::vector<double>>(10, std::vector<double>(10)));
+    std::vector<double> y4(2000);
+    std::vector<double> v5(100);
+    std::vector<double> y5(100);
+    std::vector<double> v(10);
+    std::vector<double> y;
+
+    std::vector<std::vector<double>> dW5hiddenLayerNeurons(2000,std::vector<double>(100, 0.0));  //dW5 = matrix of order 2000 by 100 initialized to 0.0\
+    std::vector<std::vector<double>> dW0outputLayerNeurons(100,std::vector<double>(10, 0.0));  //dWo = matrix of order 100 by 10 initialized to 0.0
+
+
+
+    std::vector<std::vector<std::vector<std::vector<int>>>> batchList(100, std::vector<std::vector<std::vector<int>>>(100,std::vector<std::vector<int>>(28,std::vector<int>(28))));
+
+    for (int batch = 0; batch < bsize; batch++) // batches
+    {
+        for (int row = 0; row < bsize; row++) // rows
+        {
+            batchList[batch][row] = imageVectors[batch * 100 + row];  //[1,101,201, .... 7901];  What type for blist?????
+        }
+    }
+
+  //  % a single epoch loop%
+    for(int batch = 1; batch < blist.size(); batch++){  //for batch = 1 to 100 // length(blist)
+
+
+                                                  // % Mini-batch loo
+
+   int begin = batchList[batch];
+    for(int k = begin; k < begin + bsize-1; k++){//for k = begin to (begin+bsize-1)
+    // Forward pass - evaluate the output for input using current weights
+         std::vector<std::vector<int>> x  = imageVectors[k];                      // x is the k-th row of size 28x28
+         y1 = Conv(x, W1);              // applying all 20 filters to generate a 20x20x20 matrix
+          y2 = ReLU(y1);                 // y2 is also a 20 x 20 x 20 matrix
+          y3 = Pool(y2);                 // Mean-Pooling results in 10x10x20 matrix
+         y4 = reshape(y3);              // converts y3 into a 1-dim matrix of order 1 x 2000
+           v5 = y4 * hiddenLayerNeurons;                    // multiplying by hidden-layer matrix gives a 1 x 100 matrix
+           y5 = ReLU(v5);                 // just replace -ve values in v5 by 0; v5 is also 1 x 100
+           v  = y5*outputLayerNeurons;                    // multiplying by output-layer matrix gives a 1 x 10 matrix
+           y  = Softmax(v);               // apply Softmax function to turn v into a vector that sums to 1
+
+            d = correct output; // d is a 1 by 10 matrix in which d[i] = 1 where i is the label associated with the input; 0 else
+            // Thus, if the D[k] = i, then d[i] = 1, and for all j != i, d[j] = 0
+    //Backpropagation
+          delta  = d - y;                   // error at the output layer; delta is 1 x 10
+          e5     = delta * Wo';             // Wo' is just the transpose of Wo. e5 is 1 x 100
+          delta5 = ReLu(e5);
+           dW5hiddenLayerNeurons = dW5hiddenLayerNeurons + y4' * delta5;
+          dW0outputLayerNeurons = dW0outputLayerNeurons + y5' * delta ;
+   } //end-for (inner)
+
+   // % Update weights for the mini-match
+    dW5hiddenLayerNeurons = dW5hiddenLayerNeurons / bsize;
+    dW0outputLayerNeurons = dW0outputLayerNeurons / bsize;
+    hiddenLayerNeurons  = hiddenLayerNeurons + alpha*dW5hiddenLayerNeurons;
+    outputLayerNeurons  = outputLayerNeurons + alpha*dW0outputLayerNeurons;
+    return hiddenLayerNeurons;
+    // end-for (outer)
+}
+
+    //end (of function)
+
+
+
+
+
+}
+
+
+std::vector<std::vector<std::vector<double>>> ReLu(std::vector<std::vector<std::vector<double>>> const x)
+{
+    std::vector<std::vector<std::vector<double>>> A(20,std::vector<std::vector<double>>(20, std::vector<double>(20)));
+    for( int i = 0; i< 20; ++i )
+        for (int j=0; j< 20; ++j) {
+            for(int k = 0; k < 20; k++)
+            {
+                if (x[i][j][k] <= 0)
+                {
+                    A[i][j][k] = (0.0);
+                }
+                else A[i][j][k] = (x[i][j][k]);
+            }
+        }
+
+    return A;
+}
