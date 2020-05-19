@@ -26,6 +26,7 @@
   <component name="ProjectId" id="1bv8Oj7w7pqqLabJSYQAD5ED5tc" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="CMakeSettings" />
   </component>
   <component name="RecentsManager">
@@ -69,7 +70,7 @@
       <workItem from="1589750001209" duration="7183000" />
       <workItem from="1589767682194" duration="77000" />
       <workItem from="1589767812236" duration="621000" />
-      <workItem from="1589847459863" duration="724000" />
+      <workItem from="1589847459863" duration="2953000" />
     </task>
     <servers />
   </component>
