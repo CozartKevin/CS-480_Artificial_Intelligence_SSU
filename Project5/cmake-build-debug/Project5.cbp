@@ -24,6 +24,7 @@
 				<Option type="1"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
+					<Add directory="G:/SSU Courses/CS480/CS480/Project5/Eigen3"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\ATLMFC\include"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\include"/>
 					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"/>
@@ -47,6 +48,7 @@
 				<Option type="1"/>
 				<Option compiler="msvc8"/>
 				<Compiler>
+					<Add directory="G:/SSU Courses/CS480/CS480/Project5/Eigen3"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\ATLMFC\include"/>
 					<Add directory="C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Tools\MSVC\14.16.27023\include"/>
 					<Add directory="C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um"/>

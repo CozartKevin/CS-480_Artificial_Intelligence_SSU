@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <locale>
 #include <codecvt>
+#include <Eigen/Dense>
 #include "ImageObject.hpp"
 
 
@@ -146,8 +147,12 @@ std::vector<std::vector<std::vector<int>>> getImageNonObject(std::vector<std::st
 std::vector<std::vector<std::vector<double>>> getFilter(std::string s);
 std::vector<std::vector<std::vector<double>>> convolution(std::vector<std::vector<std::vector<double>>> filters/*filters that will be applied */, std::vector<std::vector<int>> image /*image 28x28*/);
 std::vector<std::vector<double>> CNNTrain(std::vector<std::vector<std::vector<int>>> imageVectors, std::vector<int> labels, std::vector<std::vector<std::vector<double>>> filters, std::vector<std::vector<double>> & hiddenLayerNeurons, std::vector<std::vector<double>> & outputLayerNeurons);
-std::vector<std::vector<std::vector<double>>> ReLu(std::vector<std::vector<std::vector<double>>> const x);
-
+std::vector<std::vector<std::vector<double>>> ReLU(std::vector<std::vector<std::vector<double>>> const x);
+std::vector<double> ReLU1x100(std::vector<double> const x);
+std::vector<std::vector<std::vector<double>>> Conv(std::vector<std::vector<int>> image, std::vector<std::vector<std::vector<double>>> filters);
+std::vector<std::vector<std::vector<double>>> Pool(std::vector<std::vector<std::vector<double>>> const x);
+std::vector<double> reshape(std::vector<std::vector<std::vector<double>>> const x);
+std::vector<double> Softmax(std::vector<double> const x);
 int main()
 {
 
@@ -604,27 +609,7 @@ std::vector<std::vector<std::vector<double>>> getFilter(std::string s)
 
 std::vector<std::vector<std::vector<double>>> convolution(std::vector<std::vector<std::vector<double>>> filters/*filters that will be applied */, std::vector<std::vector<int>> image /*image 28x28*/)
 {
-    std::vector<std::vector<std::vector<double>>> convolutionMatrix;
-    //will apply the filters using dot product to sub section 9x9 of the image
-    for(int filter = 0; filter<20; filter++)
-    {
-        for(int shiftdown = 0; shiftdown<20 ; shiftdown++)
-        {
-            for (int shiftright = 0; shiftright < 20; ++shiftright) {
-                for (int subimage = 0; subimage < 9; ++subimage) {
-                    for (int kthfilter = 0; kthfilter < 9; ++kthfilter) {
-                        float product = product + filters[filter][subimage][kthfilter]*image[shiftdown+subimage][shiftright+kthfilter];
-                        convolutionMatrix[filter][shiftdown][shiftright];
-                    }
 
-                }
-            }
-
-        }
-    }
-
-
-    //the result should be a 20x20x20 matrix
 
 }
 
@@ -699,10 +684,14 @@ std::vector<std::vector<double>> CNNTrain(std::vector<std::vector<std::vector<in
     std::vector<double> y4(2000);
     std::vector<double> v5(100);
     std::vector<double> y5(100);
+    std::vector<double> e5(100);
     std::vector<double> v(10);
+    std::vector<double> delta(10);
+    std::vector<double> d(10);
     std::vector<double> y;
 
-    std::vector<std::vector<double>> dW5hiddenLayerNeurons(2000,std::vector<double>(100, 0.0));  //dW5 = matrix of order 2000 by 100 initialized to 0.0\
+
+    std::vector<std::vector<double>> dW5hiddenLayerNeurons(2000,std::vector<double>(100, 0.0));  //dW5 = matrix of order 2000 by 100 initialized to 0.0
     std::vector<std::vector<double>> dW0outputLayerNeurons(100,std::vector<double>(10, 0.0));  //dWo = matrix of order 100 by 10 initialized to 0.0
 
 
@@ -718,29 +707,27 @@ std::vector<std::vector<double>> CNNTrain(std::vector<std::vector<std::vector<in
     }
 
   //  % a single epoch loop%
-    for(int batch = 1; batch < blist.size(); batch++){  //for batch = 1 to 100 // length(blist)
+    for(int batch = 1; batch < batchList.size(); batch++){  //for batch = 1 to 100 // length(blist)
+                                                  // % Mini-batch lo
+     int begin = batchList[batch];
 
-
-                                                  // % Mini-batch loo
-
-   int begin = batchList[batch];
-    for(int k = begin; k < begin + bsize-1; k++){//for k = begin to (begin+bsize-1)
+     for(int k = begin; k < begin + bsize-1; k++){//for k = begin to (begin+bsize-1)
     // Forward pass - evaluate the output for input using current weights
          std::vector<std::vector<int>> x  = imageVectors[k];                      // x is the k-th row of size 28x28
-         y1 = Conv(x, W1);              // applying all 20 filters to generate a 20x20x20 matrix
+         y1 = Conv(x, filters);              // applying all 20 filters to generate a 20x20x20 matrix
           y2 = ReLU(y1);                 // y2 is also a 20 x 20 x 20 matrix
           y3 = Pool(y2);                 // Mean-Pooling results in 10x10x20 matrix
          y4 = reshape(y3);              // converts y3 into a 1-dim matrix of order 1 x 2000
            v5 = y4 * hiddenLayerNeurons;                    // multiplying by hidden-layer matrix gives a 1 x 100 matrix
-           y5 = ReLU(v5);                 // just replace -ve values in v5 by 0; v5 is also 1 x 100
-           v  = y5*outputLayerNeurons;                    // multiplying by output-layer matrix gives a 1 x 10 matrix
+           y5 = ReLU1x100(v5);                 // just replace -ve values in v5 by 0; v5 is also 1 x 100
+           v  = y5 * outputLayerNeurons;                    // multiplying by output-layer matrix gives a 1 x 10 matrix
            y  = Softmax(v);               // apply Softmax function to turn v into a vector that sums to 1
 
             d = correct output; // d is a 1 by 10 matrix in which d[i] = 1 where i is the label associated with the input; 0 else
             // Thus, if the D[k] = i, then d[i] = 1, and for all j != i, d[j] = 0
     //Backpropagation
           delta  = d - y;                   // error at the output layer; delta is 1 x 10
-          e5     = delta * Wo';             // Wo' is just the transpose of Wo. e5 is 1 x 100
+          e5     = delta * Wo';           // Wo' is just the transpose of Wo. e5 is 1 x 100
           delta5 = ReLu(e5);
            dW5hiddenLayerNeurons = dW5hiddenLayerNeurons + y4' * delta5;
           dW0outputLayerNeurons = dW0outputLayerNeurons + y5' * delta ;
@@ -749,8 +736,8 @@ std::vector<std::vector<double>> CNNTrain(std::vector<std::vector<std::vector<in
    // % Update weights for the mini-match
     dW5hiddenLayerNeurons = dW5hiddenLayerNeurons / bsize;
     dW0outputLayerNeurons = dW0outputLayerNeurons / bsize;
-    hiddenLayerNeurons  = hiddenLayerNeurons + alpha*dW5hiddenLayerNeurons;
-    outputLayerNeurons  = outputLayerNeurons + alpha*dW0outputLayerNeurons;
+    hiddenLayerNeurons  = hiddenLayerNeurons + alpha * dW5hiddenLayerNeurons;
+    outputLayerNeurons  = outputLayerNeurons + alpha * dW0outputLayerNeurons;
     return hiddenLayerNeurons;
     // end-for (outer)
 }
@@ -764,7 +751,7 @@ std::vector<std::vector<double>> CNNTrain(std::vector<std::vector<std::vector<in
 }
 
 
-std::vector<std::vector<std::vector<double>>> ReLu(std::vector<std::vector<std::vector<double>>> const x)
+std::vector<std::vector<std::vector<double>>> ReLU(std::vector<std::vector<std::vector<double>>> const x)
 {
     std::vector<std::vector<std::vector<double>>> A(20,std::vector<std::vector<double>>(20, std::vector<double>(20)));
     for( int i = 0; i< 20; ++i )
@@ -780,4 +767,53 @@ std::vector<std::vector<std::vector<double>>> ReLu(std::vector<std::vector<std::
         }
 
     return A;
+}
+
+
+std::vector<double> ReLU1x100(std::vector<double> const x){
+
+
+}
+
+std::vector<std::vector<std::vector<double>>> Conv(std::vector<std::vector<int>> image, std::vector<std::vector<std::vector<double>>> filters){
+    std::vector<std::vector<std::vector<double>>> convolutionMatrix;
+    //will apply the filters using dot product to sub section 9x9 of the image
+    for(int filter = 0; filter<20; filter++)
+    {
+        for(int shiftdown = 0; shiftdown<20 ; shiftdown++)
+        {
+            for (int shiftright = 0; shiftright < 20; ++shiftright) {
+                for (int subimage = 0; subimage < 9; ++subimage) {
+                    for (int kthfilter = 0; kthfilter < 9; ++kthfilter) {
+                        double product = product + filters[filter][subimage][kthfilter]*image[shiftdown+subimage][shiftright+kthfilter];
+                        convolutionMatrix[filter][shiftdown][shiftright] = product;
+                    }
+
+                }
+            }
+
+        }
+    }
+
+    return convolutionMatrix;
+    //the result should be a 20x20x20 matrix
+
+}
+
+
+
+std::vector<std::vector<std::vector<double>>> Pool(std::vector<std::vector<std::vector<double>>> const x){
+
+
+
+
+}
+std::vector<double> reshape(std::vector<std::vector<std::vector<double>>> const x){
+
+
+}
+
+std::vector<double> Softmax(std::vector<double> const x){
+
+
 }
