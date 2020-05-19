@@ -737,9 +737,10 @@ std::vector<std::vector<double>> CNNTrain(std::vector<std::vector<std::vector<in
      dW0outputLayerNeurons = dW0outputLayerNeurons / bsize;
    hiddenLayerNeurons  = hiddenLayerNeurons + alpha * dW5hiddenLayerNeurons;
     outputLayerNeurons  = outputLayerNeurons + alpha * dW0outputLayerNeurons;
+      */
     return hiddenLayerNeurons;
     // end-for (outer)
-    */
+
 }
     //end (of function)
 
